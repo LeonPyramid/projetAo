@@ -1,8 +1,8 @@
-package local.culturalprogramation.domain;
+package local.culturalprogramation.domain.events;
 
 
 
-public class Events {
+public class Event {
     private int desiredCapacity;
 
     public int getDesiredCapacity() {

@@ -1,6 +1,7 @@
-package local.culturalprogramation.domain;
+package local.culturalprogramation.domain.events;
 
-public class Play extends Events {
+
+public class Play extends Event {
 
     //Interval de date
     private String name;

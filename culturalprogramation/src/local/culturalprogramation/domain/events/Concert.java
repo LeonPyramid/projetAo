@@ -1,6 +1,6 @@
-package local.culturalprogramation.domain;
+package local.culturalprogramation.domain.events;
 
-public class Concert extends Events{
+public class Concert extends Event{
     
     private String groupName;
     //Une date
