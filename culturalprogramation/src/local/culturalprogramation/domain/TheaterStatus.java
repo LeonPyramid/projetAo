@@ -20,6 +20,8 @@ public enum TheaterStatus {
     /**
      *  The theather is occupied
      */
-    OCCUPIED;
+    OCCUPIED,
+    
+    ;
     
 }
