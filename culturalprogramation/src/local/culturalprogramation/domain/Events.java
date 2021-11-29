@@ -3,10 +3,10 @@ package local.culturalprogramation.domain;
 
 
 public class Events {
-    private int theaterCapacity;
+    private int desiredCapacity;
 
-    public int getTheaterCapacity() {
-        return theaterCapacity;
+    public int getDesiredCapacity() {
+        return desiredCapacity;
     }
 }
 
