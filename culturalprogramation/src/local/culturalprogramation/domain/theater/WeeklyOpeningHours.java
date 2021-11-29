@@ -11,7 +11,7 @@ public class WeeklyOpeningHours {
     private Hashtable<Integer,List<Integer>> dailyOpeningHours;
     private Hashtable<Integer,List<Integer>> dailyOpeningMinutes;
     
-    protected WeeklyOpeningHours(){
+    WeeklyOpeningHours(){
         dailyOpeningHours = new Hashtable<Integer,List<Integer>>();
         dailyOpeningMinutes = new Hashtable<Integer,List<Integer>>();
         for(int day  = 1; day < 8 ; day++){
