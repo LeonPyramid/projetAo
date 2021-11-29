@@ -1,5 +1,7 @@
 
-package local.culturalprogramation.domain;
+package local.culturalprogramation.domain.theater;
+
+
 
 /**
  *  Enumerator used to define the status of a theater
@@ -7,6 +9,8 @@ package local.culturalprogramation.domain;
  */
 
 public enum TheaterStatus {
+    
+    
     /**
      *  The theather is open and empty
      */
