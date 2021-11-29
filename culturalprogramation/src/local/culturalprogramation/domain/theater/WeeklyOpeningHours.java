@@ -10,14 +10,15 @@ import java.util.List;
 public class WeeklyOpeningHours {
     private Hashtable<Integer,List<Integer>> dailyOpeningHours;
     private Hashtable<Integer,List<Integer>> dailyOpeningMinutes;
-
-    WeeklyOpeningHours(){
+    
+    protected WeeklyOpeningHours(){
         dailyOpeningHours = new Hashtable<Integer,List<Integer>>();
         dailyOpeningMinutes = new Hashtable<Integer,List<Integer>>();
         for(int day  = 1; day < 8 ; day++){
             ArrayList<Integer> alHour = new ArrayList<Integer>(2);
             alHour.add(0,0);
             alHour.add(1,0);
+            dailyOpeningHours.put(day,alHour);
             ArrayList<Integer> alMin = new ArrayList<Integer>(2);
             alMin.add(0,0);
             alMin.add(1,0);
@@ -25,7 +26,7 @@ public class WeeklyOpeningHours {
         }
     }
 
-    void setOpeningHour(int day,int hour,int min){
+    public void setOpeningHour(int day,int hour,int min){
         if(day < 8 && day > 0){
             if(hour < 25 && hour >= 0){
                 if(min < 61 && min >= 0){
@@ -36,7 +37,7 @@ public class WeeklyOpeningHours {
         }
     }
 
-    void setClosingHour(int day,int hour,int min){
+    public void setClosingHour(int day,int hour,int min){
         if(day < 8 && day > 0){
             if(hour < 25 && hour >= 0){
                 if(min < 61 && min >= 0){
@@ -52,10 +53,10 @@ public class WeeklyOpeningHours {
      * @param day from Calendar 
      * @return A String at format "[hh:mm,hh:mm]" with opening hour at left and closing hour at right
      */
-    String getDayHours(int day){
+    public String getDayHours(int day){
         if(day < 8 && day > 0){
-            String ret = "[" + dailyOpeningHours.get(day).get(0) + ":" + dailyOpeningMinutes.get(day).get(0) + ","
-            + dailyOpeningHours.get(day).get(1) + ":" + dailyOpeningMinutes.get(day).get(1) + "]";
+            String ret = "[" + String.format("%02d",dailyOpeningHours.get(day).get(0)) + ":" + String.format("%02d",dailyOpeningMinutes.get(day).get(0)) + ","
+            + String.format("%02d",dailyOpeningHours.get(day).get(1)) + ":" +  String.format("%02d",dailyOpeningMinutes.get(day).get(1)) + "]";
             return ret;
         }
         return null;

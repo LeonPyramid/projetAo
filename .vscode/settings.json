@@ -1,5 +1,8 @@
 {
     "java.project.sourcePaths": [
         "culturalprogramation/src"
+    ],
+    "java.project.referencedLibraries": [
+        "culturalprogramation/lib/**/*.jar",
     ]
 }
