@@ -15,6 +15,8 @@ import local.culturalprogramation.domain.events.Event;
  *
  */
 public class Theater {
+
+    private String name;
     /**
      * Integer representing the capacity of the theater
      */
@@ -29,7 +31,8 @@ public class Theater {
      */
     private WeeklyOpeningHours openingHours;
 
-    public Theater(WeeklyOpeningHours openingHours, int year){
+    public Theater(String name,WeeklyOpeningHours openingHours){
+        this.name =name;
         this.openingHours = openingHours;
         theaterDate = new Hashtable<LocalDateTime,TheaterDateInformation>();
     }
