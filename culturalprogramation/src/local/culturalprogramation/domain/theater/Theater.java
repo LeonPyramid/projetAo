@@ -1,32 +1,55 @@
 package local.culturalprogramation.domain.theater;
 
-import java.time.Year;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import java.time.LocalDateTime;
+
+import local.culturalprogramation.domain.events.Event;
+
+/**
+ * Class representing a theather.
+ *
+ */
 public class Theater {
+    /**
+     * Integer representing the capacity of the theater
+     */
     private int theaterCapacity;
-    private Hashtable<Calendar,TheaterDateInformation> theaterDate; //Tous les jours de l'année
+    /**
+     * Give acces for each day at the information of the theather that day.
+     */
+    private Hashtable<LocalDateTime,TheaterDateInformation> theaterDate; //Tous les jours de l'année
+    
+    /**
+     * Represent typical weekly hours of the theater
+     */
     private WeeklyOpeningHours openingHours;
 
     public Theater(WeeklyOpeningHours openingHours, int year){
         this.openingHours = openingHours;
-        theaterDate = new Hashtable<Calendar,TheaterDateInformation>();
+        theaterDate = new Hashtable<LocalDateTime,TheaterDateInformation>();
     }
 
-
+    /**
+     * Get the theater capacity
+     * @return Int representing theatherCapacity
+     */
     public int getTheaterCapacity() {
         return theaterCapacity;
     }
-
-    public void setDayOpen(Calendar date){
+    
+    /**
+     * Set in theaterDate the opening and closing hours of given the day
+     * @param date day to set the hours
+     */
+    public void setDayOpen(LocalDateTime date){
         if(theaterDate.contains(date))
             return; // TODO faire une erreur
-        int dayofweek  = date.get(Calendar.DAY_OF_WEEK);
+        int dayofweek  = date.getDayOfWeek().getValue();
         String hours = openingHours.getDayHours(dayofweek);
         //[00:00,00:00]
         Pattern p = Pattern.compile("\\d+");
@@ -41,40 +64,50 @@ public class Theater {
         for (int i =0 ;i<tab.size();i++){
             intTab.set(i, Integer.parseInt(tab.get(i)));
         }
-        Calendar opening = Calendar.getInstance();
-        Calendar closing = Calendar.getInstance();
-        opening.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE), intTab.get(0), intTab.get(1));
-        closing.set(date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DATE), intTab.get(2), intTab.get(3));
+
+        LocalDateTime opening = date.withMinute(intTab.get(1)).withHour(intTab.get(0));
+        LocalDateTime closing = date.withMinute(intTab.get(3)).withHour(intTab.get(2));
         TheaterDateInformation newInformation  = new TheaterDateInformation(opening,closing);
         
         theaterDate.put(date,newInformation);  
 
     }
     
+    /**
+     * Set in theaterDate, the event given of the day
+     * @param date day to set the event
+     * @param event the event to set
+     */
+    public void setDayEvent(LocalDateTime date, Event event){
+        if(!theaterDate.contains(date))
+            return; //TODO faire une erreur
+        if(event.getDesiredCapacity()>this.theaterCapacity)
+            return; //TODO faire une erreur
+        
+        TheaterDateInformation tdi = theaterDate.get(date);
+        tdi.setEvent(event);  
+    }
+    /**
+     * Remove in theaterDate, the event of the given day
+     * @param date day to remove eventh
+     */
+    public void removeDayEvent(LocalDateTime date){
+        if(!theaterDate.contains(date))
+            return; //TODO faire une erreur
+        TheaterDateInformation tdi = theaterDate.get(date);
+        tdi.removeEvent();  
+    }
+ 
+    
     public void setWeeklyDayOpeningHour(int day, int hour, int min ){
+    
         openingHours.setOpeningHour(day ,hour, min);
     }
-
     public void setWeeklyDayClosingHour(int day, int hour, int min){
         openingHours.setClosingHour(day, hour, min);
         
     }
 
-    /**
-     * Check if year is leap
-     * @param year
-     * @return true if leap, false otherwise
-     */
-    private boolean is_leap_year(int year){
-        if (year%400 ==0)
-            return true;
-        else if (year%100  == 0)
-            return false;
-        else if (year %4 == 0)
-            return true;
-        
-        else
-            return false;
-   }
+   
     
 }
