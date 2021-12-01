@@ -74,7 +74,7 @@ public class WeeklyOpeningHours {
 
     public void loadPlanningFile(String path){
         try{
-            Path lPath = Paths.get(path);
+            Path lPath = Paths.get(path).toAbsolutePath();
             BufferedReader reader = Files.newBufferedReader(lPath);
             String line = null;
             Boolean isEdited[] = new Boolean[7];
@@ -87,8 +87,8 @@ public class WeeklyOpeningHours {
                     System.err.println("File formart not matching a planning format: DAY [HH:MM,hh:mm]");
                     return;
                 }
-                line.replace("[", "");
-                line.replace("]", "");
+                line = line.replace("[", "");
+                line = line.replace("]", "");
                 String split[] = line.split("\\s|\\:|\\,");
                 int day = -1;
                 switch (split[0]){
@@ -153,7 +153,7 @@ public class WeeklyOpeningHours {
                     System.err.println(("One of the day in the list is not a day of the week!"));
                 }
                 localWoh.setOpeningHour(day, Integer.parseInt(split[1]), Integer.parseInt(split[2]));
-                localWoh.setOpeningHour(day, Integer.parseInt(split[1]), Integer.parseInt(split[2]));
+                localWoh.setClosingHour(day, Integer.parseInt(split[3]), Integer.parseInt(split[4]));
             }
             for(Boolean b : isEdited){
                 if(!b){
