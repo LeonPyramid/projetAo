@@ -1,6 +1,7 @@
 package local.culturalprogramation.domain.theater;
-import java.util.Calendar;
 
+
+import java.time.LocalDateTime;
 import local.culturalprogramation.domain.events.Event;
 
 /**
@@ -8,8 +9,8 @@ import local.culturalprogramation.domain.events.Event;
  * Theater.
  */
 public class TheaterDateInformation {
-    private Calendar openingHour;
-    private Calendar closingHour;
+    private LocalDateTime openingHour;
+    private LocalDateTime closingHour;
     private Event event;
     private TheaterStatus status;
     
@@ -18,7 +19,9 @@ public class TheaterDateInformation {
      * @param opHour 
      * @param clHour
      */
-    public TheaterDateInformation(Calendar opHour, Calendar clHour){
+    public TheaterDateInformation(LocalDateTime opHour, LocalDateTime clHour){
+        if(closingHour.isBefore(openingHour))
+            return; //TODO ReturnErreur    
         this.event = null;
         this.openingHour = opHour;
         this.closingHour = clHour;
@@ -45,7 +48,7 @@ public class TheaterDateInformation {
     /** 
      * @return Date
      */
-    public Calendar getOpeningHour() {
+    public LocalDateTime getOpeningHour() {
         return openingHour;
     }
 
@@ -53,7 +56,7 @@ public class TheaterDateInformation {
     /** 
      * @return Date
      */
-    public Calendar getClosingHour() {
+    public LocalDateTime getClosingHour() {
         return closingHour;
     }
 
@@ -71,14 +74,14 @@ public class TheaterDateInformation {
      */
     public void setEvent(Event event) {
         if(event==null){
-            //TODO:empty field error
+            //TODO : empty field error
         }
         if(status == TheaterStatus.OPEN){
             this.event = event;
             this.status = TheaterStatus.OCCUPIED;
         }
         else{
-            //TODO:Renvoyer une erreur
+            //TODO : Renvoyer une erreur
         }
     }
 

@@ -16,7 +16,7 @@ public class WeeklyOpeningHours {
     private Hashtable<Integer,List<Integer>> dailyOpeningHours;
     private Hashtable<Integer,List<Integer>> dailyOpeningMinutes;
     
-    WeeklyOpeningHours(){
+    public WeeklyOpeningHours(){
         dailyOpeningHours = new Hashtable<Integer,List<Integer>>();
         dailyOpeningMinutes = new Hashtable<Integer,List<Integer>>();
         for(int day  = 1; day < 8 ; day++){
@@ -37,20 +37,25 @@ public class WeeklyOpeningHours {
                 if(min < 61 && min >= 0){
                     (dailyOpeningHours.get(day)).set(0,hour);
                     (dailyOpeningMinutes.get(day)).set(0,min);
+                    return;
                 }
             }
         }
+        //TODO Erreur Borne pas bonnes
     }
 
     public void setClosingHour(int day,int hour,int min){
+        
         if(day < 8 && day > 0){
             if(hour < 25 && hour >= 0){
                 if(min < 61 && min >= 0){
                     (dailyOpeningHours.get(day)).set(1,hour);
                     (dailyOpeningMinutes.get(day)).set(1,min);
+                    return;
                 }
             }
         }
+        //TODO Erreur Borne pas bonnes
     }
 
     /**
