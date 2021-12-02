@@ -12,8 +12,5 @@ public class Programation {
     WeeklyOpeningHours crakatoaHours  = new WeeklyOpeningHours();
     //TODO CREER LES HORAIRES
     Theater Crakatoa = new Theater("Crakatoa", openingHours);
-    
-
-
 
 }
