@@ -20,7 +20,7 @@ public class TheaterDateInformation {
      * @param clHour
      */
     public TheaterDateInformation(LocalDateTime opHour, LocalDateTime clHour){
-        if(closingHour.isBefore(openingHour))
+        if(clHour.isBefore(opHour))
             return; //TODO ReturnErreur    
         this.event = null;
         this.openingHour = opHour;
@@ -93,5 +93,20 @@ public class TheaterDateInformation {
         else{
             //TODO:Renvoyer une erreur
         }
+    }
+    @Override
+    public String toString(){
+        String ret = "";
+        ret += status + " ";
+        if(status==TheaterStatus.OCCUPIED){
+            ret += event + " ";
+        }
+        if(status!=TheaterStatus.CLOSED){
+            ret += this.openingHour.toLocalTime();
+            ret += ",";
+            ret += this.closingHour.toLocalTime();
+        }
+        ret += ";";
+        return ret;
     }
 }

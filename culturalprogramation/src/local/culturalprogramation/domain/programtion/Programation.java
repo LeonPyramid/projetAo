@@ -6,11 +6,14 @@ import local.culturalprogramation.domain.theater.WeeklyOpeningHours;
 public class Programation {
     
     WeeklyOpeningHours atablesHours = new WeeklyOpeningHours();
-    //TODO CREER LES HORAIRES
-    Theater Atabal = new Theater("Atabal", openingHours);
+    //TODO CREER LES HORAIRES DANS DateTimePlanning/Atabal.dtp
+    Theater Atabal = new Theater("Atabal",null);
 
     WeeklyOpeningHours crakatoaHours  = new WeeklyOpeningHours();
-    //TODO CREER LES HORAIRES
-    Theater Crakatoa = new Theater("Crakatoa", openingHours);
+    //TODO CREER LES HORAIRES DANS DateTimePlanning/Crakatoa.dtp
+    Theater Crakatoa = new Theater("Crakatoa",null);
+    
+
+
 
 }

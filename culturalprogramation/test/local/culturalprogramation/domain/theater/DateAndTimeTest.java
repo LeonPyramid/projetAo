@@ -1,7 +1,9 @@
 package local.culturalprogramation.domain.theater;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.util.Calendar;
 
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,16 @@ public class DateAndTimeTest {
         assertTrue(espectedRes.equals(res));
         res = woh.getDayHours(Calendar.TUESDAY);
         assertTrue(!espectedRes.equals(res));
+    }
+
+    @Test
+    void isLoadingTime(){
+        Theater th = new Theater("test","/home/leon/travail/cremi/approche_objet/projet/DateTimePlanning/");
+        LocalDate ldt = LocalDate.of(2021, 05, 10);
+        th.CreateDate(ldt);
+        String inf = th.getDateInfo(ldt);
+        String testInf = "2021-05-10 OPEN 10:00,14:30;";
+        assertEquals(inf, testInf);
     }
 
 }
