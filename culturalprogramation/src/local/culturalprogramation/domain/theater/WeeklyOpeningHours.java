@@ -1,6 +1,7 @@
 package local.culturalprogramation.domain.theater;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,8 +10,6 @@ import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
 
-//TODO:Vérifier que les heures ne soient pas rangées dans le mauvais sens (fermeture<ouverture)
-//TODO:Renvoyer des erreurs dansles cas où les valeurs sont pas bonnes
 
 public class WeeklyOpeningHours {
     private Hashtable<Integer,List<Integer>> dailyOpeningHours;
@@ -41,7 +40,7 @@ public class WeeklyOpeningHours {
                 }
             }
         }
-        //TODO Erreur Borne pas bonnes
+        throw new RuntimeException("The parameters givent aren't corresponding to a day of the week, hour, or minute time");
     }
 
     public void setClosingHour(int day,int hour,int min){
@@ -55,7 +54,7 @@ public class WeeklyOpeningHours {
                 }
             }
         }
-        //TODO Erreur Borne pas bonnes
+        throw new RuntimeException("The parameters givent aren't corresponding to a day of the week, hour, or minute time");
     }
 
     /**
@@ -150,10 +149,28 @@ public class WeeklyOpeningHours {
                     break;
 
                     default:
-                    System.err.println(("One of the day in the list is not a day of the week!"));
+                    System.err.println(("Error: One of the day in the list is not a day of the week!"));
                 }
-                localWoh.setOpeningHour(day, Integer.parseInt(split[1]), Integer.parseInt(split[2]));
-                localWoh.setClosingHour(day, Integer.parseInt(split[3]), Integer.parseInt(split[4]));
+                int intVal[] = new int[4];
+                for(int i = 0; i < 4; i ++){
+                    intVal[i] = Integer.parseInt(split[i+1]);
+                }
+                if(intVal[0]>24||intVal[1]>60||intVal[2]>24||intVal[3]>60){
+                    throw new RuntimeException("One of the time information is not a time format");
+                }
+
+                if(intVal[0]>intVal[2]||(intVal[0]==intVal[2]&&intVal[1]>intVal[3])){
+                    System.err.println(("Warning: hour are inversed in the file. Automaticaly reversing them"));
+                    int tmp = intVal[2];
+                    intVal[2] = intVal[0];
+                    intVal[0] = tmp;
+                    tmp = intVal[3];
+                    intVal[3] = intVal[1];
+                    intVal[1] = tmp;
+                }
+
+                localWoh.setOpeningHour(day, intVal[0], intVal[1]);
+                localWoh.setClosingHour(day, intVal[2], intVal[3]);
             }
             for(Boolean b : isEdited){
                 if(!b){
@@ -165,8 +182,9 @@ public class WeeklyOpeningHours {
 
 
         }
-        catch(Exception e){
+        catch(IOException e){
             e.printStackTrace();
+            System.err.println("File not loaded, value are still the same");
             return;
         }
     }

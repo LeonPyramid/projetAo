@@ -31,7 +31,6 @@ public class Theater {
     public Theater(String name,String folderPath){
         this.name =name;
         this.openingHours = new WeeklyOpeningHours();
-        //TODO: get rid of local path
 
         this.openingHours.loadPlanningFile(folderPath+name+".dtp");
         theaterDate = new Hashtable<LocalDate,TheaterDateInformation>();
@@ -60,11 +59,12 @@ public class Theater {
      * @param event the event to set
      */
     public void setDayEvent(LocalDate date, Event event){
-        if(!theaterDate.contains(date))
-            return; //TODO faire une erreur
         if(event.getDesiredCapacity()>this.theaterCapacity)
-            return; //TODO faire une erreur
-        
+            throw new RuntimeException("Event needs more place than the theater "+name+" has\n");
+        if(!theaterDate.containsKey(date))
+            setDayOpen(date);
+        if(this.theaterDate.get(date).getStatus()!=TheaterStatus.OPEN)
+            throw new RuntimeException("The theater "+name+" is not free or closed at this day\n");
         TheaterDateInformation tdi = theaterDate.get(date);
         tdi.setEvent(event);  
     }
@@ -72,16 +72,17 @@ public class Theater {
      * Remove in theaterDate, the event of the given day
      * @param date day to remove eventh
      */
-    public void removeDayEvent(LocalDateTime date){
-        if(!theaterDate.contains(date))
-            return; //TODO faire une erreur
+    public void removeDayEvent(LocalDate date){
+        if(!theaterDate.containsKey(date))
+            throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
+        if(theaterDate.get(date).getStatus()!=TheaterStatus.CLOSED)
+            throw new RuntimeException("The theater "+name+" hasn't prepared the dzte yet\n");
         TheaterDateInformation tdi = theaterDate.get(date);
         tdi.removeEvent();  
     }
  
     
     public void setWeeklyDayOpeningHour(int day, int hour, int min ){
-    
         openingHours.setOpeningHour(day ,hour, min);
     }
     public void setWeeklyDayClosingHour(int day, int hour, int min){
@@ -95,8 +96,8 @@ public class Theater {
      * @param date the date which need to be created
      */
     public void CreateDate(LocalDate date){
-        if(theaterDate.contains(date)){
-            return;//TODO: faire une erreur
+        if(theaterDate.containsKey(date)){
+            throw new RuntimeException("The date already exists\n");
         }
         int dayofweek  = date.getDayOfWeek().getValue();
         String hourData = openingHours.getDayHours(dayofweek);
@@ -117,8 +118,8 @@ public class Theater {
      * @param date the date which need to be created
      */
     public void CreateDate(LocalDate date, int openingHour, int openingMinute, int closingHour, int closingMinutes){
-        if(theaterDate.contains(date)){
-            return;//TODO: faire une erreur
+        if(theaterDate.containsKey(date)){
+            throw new RuntimeException("The date already exists\n");
         }
         LocalDateTime opening = LocalDateTime.of(date,LocalTime.of(openingHour,openingMinute));
         LocalDateTime closing = LocalDateTime.of(date,LocalTime.of(closingHour,closingMinutes));
@@ -128,7 +129,7 @@ public class Theater {
 
     public String getDateInfo(LocalDate date){
         if(!(theaterDate.containsKey(date))){
-            return "";//TODO: faire une erreur
+            throw new RuntimeException("The date doesn't exists\n");
         }
         return date.toString() + " " + theaterDate.get(date).toString();
     }

@@ -20,8 +20,12 @@ public class TheaterDateInformation {
      * @param clHour
      */
     public TheaterDateInformation(LocalDateTime opHour, LocalDateTime clHour){
-        if(clHour.isBefore(opHour))
-            return; //TODO ReturnErreur    
+        if(clHour.isBefore(opHour)){
+            System.err.println("Warning: Opening hour and closing hour are reversed!\n Automatically reversing them");
+            LocalDateTime tmp = clHour;
+            clHour = opHour;
+            opHour = tmp;
+        } 
         this.event = null;
         this.openingHour = opHour;
         this.closingHour = clHour;
@@ -74,14 +78,14 @@ public class TheaterDateInformation {
      */
     public void setEvent(Event event) {
         if(event==null){
-            //TODO : empty field error
+            throw new RuntimeException("Event cannot be null");
         }
         if(status == TheaterStatus.OPEN){
             this.event = event;
             this.status = TheaterStatus.OCCUPIED;
         }
         else{
-            //TODO : Renvoyer une erreur
+            throw new RuntimeException("Cannot set an event in a closed or occupied date of the theater");
         }
     }
 
@@ -91,7 +95,7 @@ public class TheaterDateInformation {
             this.status = TheaterStatus.OPEN;
         }
         else{
-            //TODO:Renvoyer une erreur
+            throw new RuntimeException("Cannot remove an event at this date, no event set");
         }
     }
     @Override

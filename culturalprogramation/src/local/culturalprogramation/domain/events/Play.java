@@ -12,8 +12,12 @@ public class Play extends Event {
     
     
     public Play(String companyName, LocalDateTime start, LocalDateTime end){
-        if (end.isBefore(start))
-            return; //TODO Return erreur
+        if (end.isBefore(start)){
+            System.err.println("Warning: start hour and stop hour are reversed!\n Automatically reversing them");
+            LocalDateTime tmp = end;
+            end = start;
+            start = tmp;
+        }
         this.companyName = companyName;
         this.startDate = start;
         this.endDate = end;
