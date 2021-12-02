@@ -1,6 +1,7 @@
 package local.culturalprogramation.domain.theater;
 
 import java.util.Hashtable;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -82,10 +83,10 @@ public class Theater {
     }
  
     
-    public void setWeeklyDayOpeningHour(int day, int hour, int min ){
+    public void setWeeklyDayOpeningHour(DayOfWeek day, int hour, int min ){
         openingHours.setOpeningHour(day ,hour, min);
     }
-    public void setWeeklyDayClosingHour(int day, int hour, int min){
+    public void setWeeklyDayClosingHour(DayOfWeek day, int hour, int min){
         openingHours.setClosingHour(day, hour, min);
         
     }
@@ -99,7 +100,7 @@ public class Theater {
         if(theaterDate.containsKey(date)){
             throw new RuntimeException("The date already exists\n");
         }
-        int dayofweek  = date.getDayOfWeek().getValue();
+        DayOfWeek dayofweek  = date.getDayOfWeek();
         String hourData = openingHours.getDayHours(dayofweek);
         hourData = hourData.replace("[", "");
         hourData = hourData.replace("]", "");

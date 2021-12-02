@@ -3,8 +3,8 @@ package local.culturalprogramation.domain.theater;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.Calendar;
 
 import org.junit.jupiter.api.Test;
 
@@ -16,17 +16,17 @@ public class DateAndTimeTest {
     @Test
     void isWellInitialized(){
         String espectedRes = "[00:00,00:00]";
-        String res = woh.getDayHours(Calendar.MONDAY);
+        String res = woh.getDayHours(DayOfWeek.MONDAY);
         assertTrue(espectedRes.equals(res));
     }
 
     @Test
     void isEvolvingHour(){
         String espectedRes = "[10:15,00:00]";
-        woh.setOpeningHour(Calendar.MONDAY, 10, 15);
-        String res = woh.getDayHours(Calendar.MONDAY);
+        woh.setOpeningHour(DayOfWeek.MONDAY, 10, 15);
+        String res = woh.getDayHours(DayOfWeek.MONDAY);
         assertTrue(espectedRes.equals(res));
-        res = woh.getDayHours(Calendar.TUESDAY);
+        res = woh.getDayHours(DayOfWeek.TUESDAY);
         assertTrue(!espectedRes.equals(res));
     }
 
