@@ -1,10 +1,12 @@
 package local.culturalprogramation.domain.programtion;
 
+import local.culturalprogramation.domain.events.Concert;
+import local.culturalprogramation.domain.events.Play;
 import local.culturalprogramation.domain.theater.Theater;
 import local.culturalprogramation.domain.theater.WeeklyOpeningHours;
 
 public class Programation {
-    
+    int year;
     WeeklyOpeningHours atablesHours = new WeeklyOpeningHours();
     //TODO CREER LES HORAIRES 
     Theater Atabal = new Theater("Atabal",null,350);
@@ -29,6 +31,19 @@ public class Programation {
 
     public static Programation getInstance(){
         return instance;
+    }
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public boolean setEvent(Concert concert, int week) {
+        //TODO FONCTION TRUE if SET 
+        return false;
+    }
+    
+
+    public boolean setEvent(Play play, int week) {
+        return false;
     }
 
 

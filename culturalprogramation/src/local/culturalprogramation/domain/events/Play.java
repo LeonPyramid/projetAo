@@ -1,5 +1,6 @@
 package local.culturalprogramation.domain.events;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -7,20 +8,21 @@ public class Play extends Event {
 
     
     private String companyName;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
     
     
-    public Play(String companyName, LocalDateTime start, LocalDateTime end){
-        if (end.isBefore(start)){
+    public Play(String companyName, LocalDate dstart, LocalDate dend, int desiredCapacity){
+        super(desiredCapacity);
+        if (dend.isBefore(dstart)){
             System.err.println("Warning: start hour and stop hour are reversed!\n Automatically reversing them");
-            LocalDateTime tmp = end;
-            end = start;
-            start = tmp;
+            LocalDate tmp = dend;
+            dend = dstart;
+            dstart = tmp;
         }
         this.companyName = companyName;
-        this.startDate = start;
-        this.endDate = end;
+        this.startDate = dstart;
+        this.endDate = dend;
         
     }
     /**
