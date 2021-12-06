@@ -14,12 +14,14 @@ import local.culturalprogramation.domain.programtion.Programation;
     private static Programation programation = Programation.getInstance();
     private static DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("dd/MM/yy");
 
+    public Console(){}
     public  void main(){
         Scanner scan = new Scanner(System.in);
         scan.useDelimiter("\n");
         System.out.println("Welcome to your programming tool!");
         int year = YEAR(scan);
-        programation.setYear(year);
+        if (year != LocalDate.now().getYear());
+            programation.setYear(year);
         uiLoop();
     }
 
