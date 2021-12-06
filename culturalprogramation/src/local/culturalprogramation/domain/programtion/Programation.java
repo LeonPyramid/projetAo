@@ -1,6 +1,7 @@
 package local.culturalprogramation.domain.programtion;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import local.culturalprogramation.domain.events.Concert;
 import local.culturalprogramation.domain.events.Play;
@@ -130,6 +131,12 @@ public class Programation {
 
     public char[] displayTheaterHours(String name) {
         return null;
+    }
+
+    public void close(String theater, LocalDate date) {
+    }
+
+    public void change(String theater, LocalDateTime dateo, LocalDateTime datef) {
     }
 
 

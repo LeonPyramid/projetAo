@@ -1,6 +1,8 @@
 package local.culturalprogramation.ui;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
@@ -61,6 +63,12 @@ import local.culturalprogramation.domain.programtion.Programation;
                 case "WIP":
                     WIP();
                     break;
+                case "CLOSE":
+                    CLOSE(scan);
+                    break;
+                case "CHANGE":
+                    CHANGE(scan);
+                    break;
                 default:
                     System.err.println("No Corresponding Command");
             }
@@ -108,7 +116,6 @@ import local.culturalprogramation.domain.programtion.Programation;
             System.out.println("7. Set Day CLOSE ");
             System.out.println("8. CHANGE day hours ");
             System.out.println("9. QUIT the program");
-
     }
     private int lengthPlay(Scanner scan){
         System.out.println("Enter the number of representation you want : (maximun 7)");
@@ -119,6 +126,13 @@ import local.culturalprogramation.domain.programtion.Programation;
             }
             System.out.println("Length number must be in [1;7]");
         }
+    }
+    private LocalDate DATE(Scanner scan){
+        System.out.println("Choose a date *dd/MM/yy*");
+        String sdate = scan.next();
+        LocalDate date = LocalDate.parse(sdate,formatter);
+        return date;
+
     }
 
     private  void WIP(){
@@ -233,5 +247,34 @@ import local.culturalprogramation.domain.programtion.Programation;
         System.out.println(ret);
     }
 
+    private void CLOSE(Scanner scan){
+        String theater = THEATER(scan);
+        LocalDate date = DATE(scan);
+        programation.close(theater,date);
+    }
+
+    private void CHANGE(Scanner scan){
+        String theater = THEATER(scan);
+        LocalDate date = DATE(scan);
+        System.out.println("Heure d'ouverture : *hh*");
+        int ho = scan.nextInt();
+        System.out.println("Minutes d'ouverture : *mm*");
+        int mo = scan.nextInt();
+        System.out.println("Heure de fermeture : *hh*");
+        int hf = scan.nextInt();
+        System.out.println("Minutes de fermeture : *mm*");
+        int mf = scan.nextInt();
+        LocalDateTime datetime = LocalDateTime.of(date,LocalTime.now());
+        LocalDateTime dateo = datetime;
+        dateo = dateo.withHour(ho);
+        dateo = dateo.withMinute(mo);
+
+        LocalDateTime datef =datetime;
+        datef = datef.withHour(hf);
+        datef = datef.withMinute(mf);
+        
+        programation.change(theater,dateo,datef);
+
+    }
 
 }
