@@ -14,12 +14,15 @@ import local.culturalprogramation.domain.programtion.Programation;
     private static Programation programation = Programation.getInstance();
     private static DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("dd/MM/yy");
 
+    public Console(){}
+
     public  void main(){
         Scanner scan = new Scanner(System.in);
         scan.useDelimiter("\n");
         System.out.println("Welcome to your programming tool!");
         int year = YEAR(scan);
-        programation.setYear(year);
+        if (year != LocalDate.now().getYear());
+            programation.setYear(year);
         uiLoop();
     }
 
@@ -38,31 +41,36 @@ import local.culturalprogramation.domain.programtion.Programation;
                     ADD(scan);
                     break;
                 case "REMOVE":
-                    //TODO ENLEVER LE WIP QUAND FINI
-                    WIP();
+                    REMOVE(scan);
                     break;
                 case "PLANNING":
                     PLANNING(scan);
-                    //TODO ENLEVER LE WIP QUAND FINI
-                    WIP();
                     break;
                 case "HOURS":
-                     //TODO ENLEVER LE WIP QUAND FINI
-                    WIP();
+                    HOURS(scan);
                     break;
                 case "SAVE":
-                    //TODO ENLEVER LE WIP QUAND FINI
-                    WIP();
+                    SAVE();
+                    break;
+                case "LOAD":
+                    LOAD(scan);
                     break;
                 case "QUIT":
                     stay = false;
+                    break;
+                case "WIP":
+                    WIP();
                     break;
                 default:
                     System.err.println("No Corresponding Command");
             }
         }
     }
-
+    private String THEATER(Scanner scan){
+        System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena");
+        String name = scan.next();
+        return name;
+    }
     private  int  YEAR(Scanner scan){
         int year  = LocalDate.now().getYear();
         System.out.println("Say us the year you want to program");
@@ -96,7 +104,8 @@ import local.culturalprogramation.domain.programtion.Programation;
             System.out.println("3. Display a theather weekly PLANNING ");
             System.out.println("4. Display a theater's weekly HOURS ");
             System.out.println("5. SAVE the programation ");
-            System.out.println("6. QUIT the program");
+            System.out.println("6. LOAD a programation ");
+            System.out.println("7. QUIT the program");
     }
 
     private  void WIP(){
@@ -125,15 +134,11 @@ import local.culturalprogramation.domain.programtion.Programation;
         
         System.out.println("Enter the name of the play");
         String name = scan.next();
-        System.out.println("Enter the starting date of the play *dd/MM/yy*");
-        String start = scan.next();
-        LocalDate Dstart = LocalDate.parse(start, formatter);
-        System.out.println("Enter the ending date of the play *dd/MM/yy* ");
-        String end = scan.next();
-        LocalDate Dend = LocalDate.parse(end, formatter);
         System.out.println("Enter the desired capacity of the play");
         int desiredCapacity = scan.nextInt();
-        boolean done =programation.setEvent(new Play(name, Dstart, Dend,desiredCapacity),week);
+        System.out.println("Enter the number of representation you want : ");
+        int length = scan.nextInt();
+        boolean done =programation.setPlay(name,desiredCapacity,length,week);
         if(done)
             System.out.println("Concert set!");
         else
@@ -143,12 +148,9 @@ import local.culturalprogramation.domain.programtion.Programation;
     private  void CONCERT(Scanner scan,int week){
         System.out.println("Enter the name of the artist");
         String name = scan.next();
-        System.out.println("Enter the date of the concert *dd/MM/yy*");
-        String stringDate = scan.next();
-        LocalDate date = LocalDate.parse(stringDate, formatter);
         System.out.println("Enter the desired capacity of the play");
         int desiredCapacity = scan.nextInt();
-        boolean  done  = programation.setEvent(new Concert(name,date,desiredCapacity),week);
+        boolean  done  = programation.setConcert(name,desiredCapacity,week);
         if(done)
             System.out.println("Concert set!");
         else
@@ -157,8 +159,63 @@ import local.culturalprogramation.domain.programtion.Programation;
 
 
     private void PLANNING(Scanner scan){
-        WEEK(scan);
-        System.out.println("dfshsdjfk");
+        int week = WEEK(scan);
+        String name = THEATER(scan);
+        System.out.println(programation.displayTheater(name,week));
     }
+
+    private void HOURS(Scanner scan){
+        String name = THEATER(scan);
+        System.out.println(programation.displayTheaterHours(name));
+    }
+
+    private void REMOVE(Scanner scan){
+        System.out.println("Choose the type of event : PLAY or CONCERT");
+        String opt = scan.next();
+        switch(opt){
+            case "PLAY":
+                System.out.println("Enter the name of the play");
+                String name = scan.next();
+                System.out.println("Enter the date of the play *dd/MM/yy* (will remove all the consecutives dates)");
+                String stringDate = scan.next();
+                LocalDate date = LocalDate.parse(stringDate, formatter);
+                boolean check = programation.removeEventPlay(name,date);
+                if (check)
+                    System.out.println("Remove done !");
+                else
+                    System.out.println("Play does not exist");
+                break;
+
+            case "CONCERT":
+                System.out.println("Enter the name of the concert");
+                name = scan.next();
+                System.out.println("Enter the date of the concert *dd/MM/yy*");
+                stringDate = scan.next();
+                date = LocalDate.parse(stringDate, formatter);
+                check = programation.removeEventConcert(name,date);
+                if (check)
+                    System.out.println("Remove done !");
+                else
+                    System.out.println("Concert does not exist");
+                break;
+
+            
+            default:
+                System.err.println("No Corresponding Type");
+        }
+    }
+
+    private void SAVE(){
+        String path = programation.save();
+        System.out.println("Programtion saved in : " + path );
+    }
+
+    private void LOAD(Scanner scan){
+        System.out.println("Give us the path to the programtion to load"); 
+        String path =  scan.next();
+        String ret  = programation.load(path);
+        System.out.println(ret);
+    }
+
 
 }

@@ -24,8 +24,13 @@ public class Programation {
 
     private static Programation instance = null;
 
+<<<<<<< HEAD
     private PersonalBitMap bitMap;
     private Theater[] theaterTab;
+=======
+    private PersonalBitMap bitMap = new PersonalBitMap(Atabal, Galaxie, Krakatoa, year );
+    
+>>>>>>> d234fbe2c080af579d022beb025fe7a3d32cc583
 
     private Programation(){
         bitMap = new PersonalBitMap(Atabal, Galaxie, Krakatoa,LocalDate.now().getYear());
