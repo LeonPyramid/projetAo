@@ -32,7 +32,7 @@ public class DateAndTimeTest {
 
     @Test
     void isLoadingTime(){
-        Theater th = new Theater("test","/home/leon/travail/cremi/approche_objet/projet/DateTimePlanning/");
+        Theater th = new Theater("test","/home/leon/travail/cremi/approche_objet/projet/DateTimePlanning/",2021);
         LocalDate ldt = LocalDate.of(2021, 05, 10);
         th.CreateDate(ldt);
         String inf = th.getDateInfo(ldt);
