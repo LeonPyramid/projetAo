@@ -1,13 +1,15 @@
 package local.culturalprogramation.domain.events;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Concert extends Event{
     
     private String groupName;
-    private LocalDateTime date;
+    private LocalDate date;
     
-    public Concert(String groupName, LocalDateTime date){
+    public Concert(String groupName, LocalDate date, int desiredCapacity){
+        super(desiredCapacity);
         this.groupName =groupName;
         this.date = date;
     }
@@ -17,7 +19,7 @@ public class Concert extends Event{
         return groupName;
     }
 
-    public LocalDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
