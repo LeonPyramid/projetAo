@@ -40,4 +40,9 @@ public class DateAndTimeTest {
         assertEquals(inf, testInf);
     }
 
+    @Test
+    void isAddingEvent(){
+        
+    }
+
 }

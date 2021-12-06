@@ -190,8 +190,8 @@ public class WeeklyOpeningHours {
 
     private void getCopy(WeeklyOpeningHours woh){
         for( DayOfWeek day : DayOfWeek.values()){
-            this.setOpeningHour(day, woh.dailyOpeningHours.get(day).get(0),  woh.dailyOpeningMinutes.get(day).get(0));
-            this.setClosingHour(day, woh.dailyOpeningHours.get(day).get(1),  woh.dailyOpeningMinutes.get(day).get(1));
+            this.setOpeningHour(day, woh.dailyOpeningHours.get(day.getValue()).get(0),  woh.dailyOpeningMinutes.get(day.getValue()).get(0));
+            this.setClosingHour(day, woh.dailyOpeningHours.get(day.getValue()).get(1),  woh.dailyOpeningMinutes.get(day.getValue()).get(1));
 
         }
     }
@@ -199,8 +199,8 @@ public class WeeklyOpeningHours {
     public WeeklyOpeningHours copy(){
         WeeklyOpeningHours newWoh = new WeeklyOpeningHours();
         for( DayOfWeek day : DayOfWeek.values()){
-            this.setOpeningHour(day, newWoh.dailyOpeningHours.get(day).get(0),  newWoh.dailyOpeningMinutes.get(day).get(0));
-            this.setClosingHour(day, newWoh.dailyOpeningHours.get(day).get(1),  newWoh.dailyOpeningMinutes.get(day).get(1));
+            this.setOpeningHour(day, newWoh.dailyOpeningHours.get(day.getValue()).get(0),  newWoh.dailyOpeningMinutes.get(day.getValue()).get(0));
+            this.setClosingHour(day, newWoh.dailyOpeningHours.get(day.getValue()).get(1),  newWoh.dailyOpeningMinutes.get(day.getValue()).get(1));
 
         }
         return newWoh;
