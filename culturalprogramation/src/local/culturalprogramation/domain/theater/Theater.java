@@ -28,9 +28,10 @@ public class Theater {
      */
     private WeeklyOpeningHours openingHours;
 
-    public Theater(String name,String folderPath){
+    public Theater(String name,String folderPath,int capacity){
         this.name =name;
         this.openingHours = new WeeklyOpeningHours();
+        this.theaterCapacity=capacity;
 
         this.openingHours.loadPlanningFile(folderPath+name+".dtp");
         theaterDate = new Hashtable<LocalDate,TheaterDateInformation>();
@@ -82,7 +83,7 @@ public class Theater {
     }
  
     
-    public void setWeeklyDayOpeningHour(int day, int hour, int min ){
+    public void setWeeklyDayOpeningHour(int day, int hour, int min){
         openingHours.setOpeningHour(day ,hour, min);
     }
     public void setWeeklyDayClosingHour(int day, int hour, int min){
@@ -134,5 +135,6 @@ public class Theater {
         return date.toString() + " " + theaterDate.get(date).toString();
     }
    
+
     
 }
