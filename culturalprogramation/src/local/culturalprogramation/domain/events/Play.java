@@ -45,8 +45,13 @@ public class Play extends Event {
      * 
      */
     public String getStringDate(){
-        String interval = "["+startDate.toString()+":"+endDate.toString()+"]";
+        String interval = "["+startDate.format(fmt)+":"+endDate.format(fmt)+"]";
         return interval;
+    }
+
+    @Override
+    public String toString() {
+        return "Play :" + companyName + ",from " + startDate.format(fmt) + " to " + endDate.format(fmt);
     }
 
 }

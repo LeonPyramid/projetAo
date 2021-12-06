@@ -1,7 +1,7 @@
 package local.culturalprogramation.domain.events;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 public class Concert extends Event{
     
@@ -21,6 +21,12 @@ public class Concert extends Event{
 
     public LocalDate getDate() {
         return date;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Concert :" + groupName + ", " + date.format(fmt);
     }
 
     

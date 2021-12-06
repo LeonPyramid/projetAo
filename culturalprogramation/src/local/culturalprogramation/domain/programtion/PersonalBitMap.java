@@ -78,27 +78,36 @@ public class PersonalBitMap {
      * Find a date to set an event
      * @param year year to program
      * @param week wich week to check
+     * @param theaterToTest MUST BE A THREE BOOLEAN TAB, each boolean corresponding to one of the theater and telling if it needs to be tested
      * @return TheaterDate contanning the date to set in wich theater, null if full
      */
-    public TheaterDate findDate(int year,int week){
+    public TheaterDate findDate(int year,int week,boolean[] theaterToTest){
         LocalDate date = LocalDate.now();
         date = date.withYear(year);
         int firstMonday = findFirstMonday(date);
-        TheaterDate bestDay = findTheBestDay(week, firstMonday,date);
+        TheaterDate bestDay = findTheBestDay(week, firstMonday,date,theaterToTest);
         
         return bestDay;
         
 
     }
 
-    public TheaterDate findDateRange(int year,int week,int range){
+    /**
+     * Find a group of juxtaposed dates
+     * @param year  year of program
+     * @param week  which week to check
+     * @param range the number of days
+     * @param theaterToTest MUST BE A THREE BOOLEAN TAB, each boolean corresponding to one of the theater and telling if it needs to be tested
+     * @return TheaterDate containing the date to set in wich theater, null if full or not able to set the theater in this range
+     */
+    public TheaterDate findDateRange(int year,int week,int range,boolean[] theaterToTest){
         if(range > 6){
             return  null;
         }
         LocalDate date = LocalDate.now();
         date = date.withYear(year);
         int firstMonday = findFirstMonday(date);
-        TheaterDate bestDay = findBestDayRange(week, firstMonday,date,range);
+        TheaterDate bestDay = findBestDayRange(week, firstMonday,date,range,theaterToTest);
         
         return bestDay;
         
@@ -119,46 +128,39 @@ public class PersonalBitMap {
     }
     /**
      * Find The best day to set an event in the week
-     * @param week int of wich week too checkif (!theater1[start+i]){
-                return  new TheaterDate(theaters[0], date.withDayOfYear(start+i));
-            }
-            if (!theater2[start+i]){
-                return  new TheaterDate(theaters[1], date.withDayOfYear(start+i));
-            }
-            if (!theater3[start+i]){
-                return  new TheaterDate(theaters[2], date.withDayOfYear(start+i));
-            }
+     * @param week int of wich week too check
      * @param firstMonday int of the first monday of the year
      * @param date date with year set
+     * @param theaterToTest MUST BE A THREE BOOLEAN TAB, each boolean corresponding to one of the theater and telling if it needs to be tested
      * @return TheatherDate contaning a day to set and in wich theater, null if full
      */
-    private TheaterDate findTheBestDay(int week, int firstMonday,LocalDate date){
+    private TheaterDate findTheBestDay(int week, int firstMonday,LocalDate date,boolean[] theaterToTest){
         
         int start = (week -1)*7+firstMonday;
         for (int i = 5; i<7; i++){
-            if (!theater1[start+i]){
+            if (!theater1[start+i] && theaterToTest[0]){
                 theater1[start+i] = true;
                 return  new TheaterDate(theaters[0], date.withDayOfYear(start+i));
             }
-            if (!theater2[start+i]){
+            if (!theater2[start+i] && theaterToTest[1]){
                 theater2[start+i] = true;
                 return  new TheaterDate(theaters[1], date.withDayOfYear(start+i));
             }
-            if (!theater3[start+i]){
+            if (!theater3[start+i] && theaterToTest[2]){
                 theater3[start+i] = true;
                 return  new TheaterDate(theaters[2], date.withDayOfYear(start+i));
             }
         }
         for (int  i = 0; i<5; i++){
-            if (!theater1[start+i]){
+            if (!theater1[start+i] && theaterToTest[0]){
                 theater1[start+i] = true;
                 return  new TheaterDate(theaters[0], date.withDayOfYear(start+i));
             }
-            if (!theater2[start+i]){
+            if (!theater2[start+i] && theaterToTest[1]){
                 theater2[start+i] = true;
                 return  new TheaterDate(theaters[1], date.withDayOfYear(start+i));
             }
-            if (!theater3[start+i]){
+            if (!theater3[start+i] && theaterToTest[2]){
                 theater3[start+i] = true;
                 return  new TheaterDate(theaters[2], date.withDayOfYear(start+i));
             }
@@ -168,21 +170,31 @@ public class PersonalBitMap {
         
     }
 
-    private TheaterDate findBestDayRange(int week, int firstMonday,LocalDate date,int range){
+    /**
+     * Find The best day to set an event in the week and with range day free after him.
+     * WARNING: The day wan be in the week before. The function just compute for a part of the date in the range being in this week.
+     * @param week int of wich week too check
+     * @param firstMonday int of the first monday of the year
+     * @param date date with year set
+     * @param range the nubmer of days
+     * @param theaterToTest MUST BE A THREE BOOLEAN TAB, each boolean corresponding to one of the theater and telling if it needs to be tested
+     * @return TheatherDate contaning a day to set and in wich theater, null if full or if no range of juxtaposed date
+     */
+    private TheaterDate findBestDayRange(int week, int firstMonday,LocalDate date,int range,boolean[] theaterToTest){
         int start = (week -1)*7+firstMonday;
-        boolean allFree = true;
         for (int i = 5; i<7; i++){
+            boolean allFree = true;
             boolean [] selectedTheater = null;
             int theaterNum = -1;
-            if (!theater1[start+i]){
+            if (!theater1[start+i] && theaterToTest[0]){
                 theaterNum = 0;
                 selectedTheater = theater1;
             }
-            else if (!theater2[start+i]){
+            else if (!theater2[start+i] && theaterToTest[1]){
                 theaterNum = 1;
                 selectedTheater = theater2;
             }
-            else if (!theater3[start+i]){
+            else if (!theater3[start+i] && theaterToTest[2]){
                 theaterNum = 2;
                 selectedTheater = theater3;
             }
@@ -199,17 +211,18 @@ public class PersonalBitMap {
             }
         }
         for (int  i = 0; i<5; i++){
+            boolean allFree = true;
             boolean [] selectedTheater = null;
             int theaterNum = -1;
-            if (!theater1[start+i]){
+            if (!theater1[start+i] && theaterToTest[0]){
                 theaterNum = 0;
                 selectedTheater = theater1;
             }
-            else if (!theater2[start+i]){
+            else if (!theater2[start+i] && theaterToTest[1]){
                 theaterNum = 1;
                 selectedTheater = theater2;
             }
-            else if (!theater3[start+i]){
+            else if (!theater3[start+i] && theaterToTest[2]){
                 theaterNum = 2;
                 selectedTheater = theater3;
             }

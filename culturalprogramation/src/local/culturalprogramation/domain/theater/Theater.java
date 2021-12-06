@@ -46,15 +46,32 @@ public class Theater {
     public int getTheaterCapacity() {
         return theaterCapacity;
     }
+
+    public String getName(){
+        return this.name;
+    }
     
     /**
-     * Set in theaterDate the opening and closing hours of given the day
-     * @param date day to set the hours
+     * Set the informations of the day according to the Weekly planning.
+     * If the weekly planning says that this day of week is closed, will set the day to closed too and give a warning.
+     * @param date day to set the informations
      */
     public void setDayOpen(LocalDate date){
         CreateDate(date);
+        if (theaterDate.get(date).getStatus()!=TheaterStatus.OPEN){
+            System.err.println(("Warning: This day has no opening hours set. Day is set as CLOSED"));
+        }
     }
     
+    /**
+     * Set the information of the day but with closed parameters.
+     * @param date day to set the informations
+     */
+    public void setDayClosed(LocalDate date){
+        CreateDate(date, 00, 00, 00, 00);
+
+    }
+
     /**
      * Set in theaterDate, the event given of the day
      * @param date day to set the event
@@ -66,7 +83,7 @@ public class Theater {
         if(!theaterDate.containsKey(date))
             setDayOpen(date);
         if(this.theaterDate.get(date).getStatus()!=TheaterStatus.OPEN)
-            throw new RuntimeException("The theater "+name+" is not free or closed at this day\n");
+            throw new RuntimeException("The theater "+name+" is not-free or closed at this day\n");
         TheaterDateInformation tdi = theaterDate.get(date);
         tdi.setEvent(event);  
     }
