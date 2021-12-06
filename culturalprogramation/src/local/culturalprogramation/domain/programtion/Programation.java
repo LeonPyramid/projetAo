@@ -108,5 +108,29 @@ public class Programation {
         return pl.toString()+ " at " + td.getTheater().getName();
     }
 
+    public char[] displayTheater(String name, int week) {
+        return null;
+    }
+
+    public boolean removeEventPlay(String name, LocalDate date) {
+        return false;
+    }
+
+    public boolean removeEventConcert(String name, LocalDate date) {
+        return false;
+    }
+
+    public String save() {
+        return null;
+    }
+
+    public String load(String path) {
+        return null;
+    }
+
+    public char[] displayTheaterHours(String name) {
+        return null;
+    }
+
 
 }

@@ -105,7 +105,20 @@ import local.culturalprogramation.domain.programtion.Programation;
             System.out.println("4. Display a theater's weekly HOURS ");
             System.out.println("5. SAVE the programation ");
             System.out.println("6. LOAD a programation ");
-            System.out.println("7. QUIT the program");
+            System.out.println("7. Set Day CLOSE ");
+            System.out.println("8. CHANGE day hours ");
+            System.out.println("9. QUIT the program");
+
+    }
+    private int lengthPlay(Scanner scan){
+        System.out.println("Enter the number of representation you want : (maximun 7)");
+        while (true){
+            int length  = scan.nextInt();
+            if(length>0 && length<=7){
+                return length;
+            }
+            System.out.println("Length number must be in [1;7]");
+        }
     }
 
     private  void WIP(){
@@ -136,13 +149,14 @@ import local.culturalprogramation.domain.programtion.Programation;
         String name = scan.next();
         System.out.println("Enter the desired capacity of the play");
         int desiredCapacity = scan.nextInt();
-        System.out.println("Enter the number of representation you want : ");
-        int length = scan.nextInt();
-        boolean done =programation.setPlay(name,desiredCapacity,length,week);
-        if(done)
-            System.out.println("Concert set!");
-        else
-            System.out.println("Week is full");  
+        int length = lengthPlay(scan);
+        String done ="";
+        try {
+            done =programation.setPlay(name,desiredCapacity,length,week);
+        } catch (RuntimeException e) {
+            System.err.println("Year is full"); 
+        }
+        System.out.println(done); 
 
     }
     private  void CONCERT(Scanner scan,int week){
@@ -150,11 +164,13 @@ import local.culturalprogramation.domain.programtion.Programation;
         String name = scan.next();
         System.out.println("Enter the desired capacity of the play");
         int desiredCapacity = scan.nextInt();
-        boolean  done  = programation.setConcert(name,desiredCapacity,week);
-        if(done)
-            System.out.println("Concert set!");
-        else
-            System.out.println("Week is full");  
+        String done ="";
+        try {
+            done =programation.setConcert(name,desiredCapacity,week);
+        } catch (RuntimeException e) {
+            System.err.println("Year is full"); 
+        }
+        System.out.println(done);  
     }
 
 
