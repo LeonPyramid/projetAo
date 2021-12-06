@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 
 import local.culturalprogramation.domain.theater.Theater;
+import local.culturalprogramation.domain.theater.TheaterStatus;
 /**
  * Contains, for each 3 principals theater, a boolean tab wich say if the day is occupied  
  */
@@ -32,10 +33,45 @@ public class PersonalBitMap {
     boolean [] theater3 = new boolean [366];
     
     
-    public PersonalBitMap(Theater one, Theater two, Theater three){
+    public PersonalBitMap(Theater one, Theater two, Theater three, int year){
         theaters[0] = one;
         theaters[1] = two;
         theaters[2] = three;
+        LocalDate dateForYear = LocalDate.now().withYear(year);
+        int firstMonday = findFirstMonday(dateForYear);
+        /*Create empty date for the first week in each theater, if day of week is closed, set all the 
+        entry for this day of week as true*/
+        TheaterStatus ts = null;
+        for( int i = 0 ; i < 7 ; i++){
+            LocalDate d = LocalDate.now().withYear(year).withDayOfYear(firstMonday+i);
+            
+            ts = one.getDateStatus(d);
+            if(ts == TheaterStatus.CLOSED){
+                for(int week = 0; week < 53; week++){
+                    int wday = (week)*7+firstMonday;
+                    if(wday < 365)
+                        theater1[wday] = true;
+                }
+            }
+            ts = two.getDateStatus(d);
+            if(ts == TheaterStatus.CLOSED){
+                for(int week = 0; week < 53; week++){
+                    int wday = (week)*7+firstMonday;
+                    if(wday < 365)
+                        theater2[wday] = true;
+                }
+            }
+            ts = three.getDateStatus(d);
+            if(ts == TheaterStatus.CLOSED){
+                for(int week = 0; week < 53; week++){
+                    int wday = (week)*7+firstMonday;
+                    if(wday < 365)
+                        theater3[wday] = true;
+                }
+            }
+
+        }
+        
     }
 
     /**

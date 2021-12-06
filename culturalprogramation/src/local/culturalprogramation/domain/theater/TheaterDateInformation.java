@@ -29,7 +29,10 @@ public class TheaterDateInformation {
         this.event = null;
         this.openingHour = opHour;
         this.closingHour = clHour;
-        this.status = TheaterStatus.OPEN;
+        if(!opHour.equals(clHour))
+            this.status = TheaterStatus.OPEN;
+        else
+            this.status = TheaterStatus.CLOSED;
     }
 
 

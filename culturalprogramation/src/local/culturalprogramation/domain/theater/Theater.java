@@ -129,6 +129,13 @@ public class Theater {
         theaterDate.put(date, newInformation);
     }
 
+    public TheaterStatus getDateStatus(LocalDate date){
+        if(!(theaterDate.containsKey(date))){
+            this.CreateDate(date);
+        }
+        return theaterDate.get(date).getStatus();
+    }
+
     public String getDateInfo(LocalDate date){
         if(!(theaterDate.containsKey(date))){
             throw new RuntimeException("The date doesn't exists\n");
