@@ -25,7 +25,8 @@ public class Programation {
 
     private static final Programation instance = new Programation();
 
-    private PersonalBitMap bitMap = new PersonalBitMap(Atabal, Galaxie, Krakatoa);
+    private PersonalBitMap bitMap = new PersonalBitMap(Atabal, Galaxie, Krakatoa, year );
+    
 
     private Programation(){}
 
