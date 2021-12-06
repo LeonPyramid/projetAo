@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.DayOfWeek;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.List;
 
@@ -30,28 +30,25 @@ public class WeeklyOpeningHours {
         }
     }
 
-    public void setOpeningHour(int day,int hour,int min){
-        if(day < 8 && day > 0){
-            if(hour < 25 && hour >= 0){
-                if(min < 61 && min >= 0){
-                    (dailyOpeningHours.get(day)).set(0,hour);
-                    (dailyOpeningMinutes.get(day)).set(0,min);
-                    return;
-                }
+    public void setOpeningHour(DayOfWeek day,int hour,int min){
+        int vday = day.getValue();
+        if(hour < 25 && hour >= 0){
+            if(min < 61 && min >= 0){
+                (dailyOpeningHours.get(vday)).set(0,hour);
+                (dailyOpeningMinutes.get(vday)).set(0,min);
+                return;
             }
         }
         throw new RuntimeException("The parameters givent aren't corresponding to a day of the week, hour, or minute time");
     }
 
-    public void setClosingHour(int day,int hour,int min){
-        
-        if(day < 8 && day > 0){
-            if(hour < 25 && hour >= 0){
-                if(min < 61 && min >= 0){
-                    (dailyOpeningHours.get(day)).set(1,hour);
-                    (dailyOpeningMinutes.get(day)).set(1,min);
-                    return;
-                }
+    public void setClosingHour(DayOfWeek day,int hour,int min){
+        int vday = day.getValue();
+        if(hour < 25 && hour >= 0){
+            if(min < 61 && min >= 0){
+                (dailyOpeningHours.get(vday)).set(1,hour);
+                (dailyOpeningMinutes.get(vday)).set(1,min);
+                return;
             }
         }
         throw new RuntimeException("The parameters givent aren't corresponding to a day of the week, hour, or minute time");
@@ -59,16 +56,14 @@ public class WeeklyOpeningHours {
 
     /**
      * Return the opening and clsoing hour for the given day of the week
-     * @param day from Calendar 
+     * @param day from DayOfWeek 
      * @return A String at format "[hh:mm,hh:mm]" with opening hour at left and closing hour at right
      */
-    public String getDayHours(int day){
-        if(day < 8 && day > 0){
-            String ret = "[" + String.format("%02d",dailyOpeningHours.get(day).get(0)) + ":" + String.format("%02d",dailyOpeningMinutes.get(day).get(0)) + ","
-            + String.format("%02d",dailyOpeningHours.get(day).get(1)) + ":" +  String.format("%02d",dailyOpeningMinutes.get(day).get(1)) + "]";
-            return ret;
-        }
-        return null;
+    public String getDayHours(DayOfWeek day){
+        int vday = day.getValue();
+        String ret = "[" + String.format("%02d",dailyOpeningHours.get(vday).get(0)) + ":" + String.format("%02d",dailyOpeningMinutes.get(vday).get(0)) + ","
+        + String.format("%02d",dailyOpeningHours.get(vday).get(1)) + ":" +  String.format("%02d",dailyOpeningMinutes.get(vday).get(1)) + "]";
+        return ret;
     }
 
     public void loadPlanningFile(String path){
@@ -89,7 +84,7 @@ public class WeeklyOpeningHours {
                 line = line.replace("[", "");
                 line = line.replace("]", "");
                 String split[] = line.split("\\s|\\:|\\,");
-                int day = -1;
+                DayOfWeek day = null;
                 switch (split[0]){
                     case "MON":
                         if(isEdited[0]){
@@ -97,7 +92,7 @@ public class WeeklyOpeningHours {
                             return;
                         }
                         isEdited[0] = true;
-                        day = Calendar.MONDAY;
+                        day = DayOfWeek.MONDAY;
                     break;
                     case "TUE":
                         if(isEdited[1]){
@@ -105,7 +100,7 @@ public class WeeklyOpeningHours {
                             return;
                         }
                         isEdited[1] = true;
-                        day = Calendar.TUESDAY;
+                        day = DayOfWeek.TUESDAY;
                     break;
                     case "WED":
                         if(isEdited[2]){
@@ -113,7 +108,7 @@ public class WeeklyOpeningHours {
                             return;
                         }
                         isEdited[2] = true;
-                        day = Calendar.WEDNESDAY;
+                        day = DayOfWeek.WEDNESDAY;
                     break;
                     case "THU":
                         if(isEdited[3]){
@@ -121,7 +116,7 @@ public class WeeklyOpeningHours {
                             return;
                         }
                         isEdited[3] = true;
-                        day = Calendar.THURSDAY;
+                        day = DayOfWeek.THURSDAY;
                     break;
                     case "FRI":
                         if(isEdited[4]){
@@ -129,7 +124,7 @@ public class WeeklyOpeningHours {
                             return;
                         }
                         isEdited[4] = true;
-                        day = Calendar.FRIDAY;
+                        day = DayOfWeek.FRIDAY;
                     break;
                     case "SAT":
                         if(isEdited[5]){
@@ -137,7 +132,7 @@ public class WeeklyOpeningHours {
                             return;
                         }
                         isEdited[5] = true;
-                        day = Calendar.SATURDAY;
+                        day = DayOfWeek.SATURDAY;
                     break;
                         case "SUN":
                         if(isEdited[6]){
@@ -145,7 +140,7 @@ public class WeeklyOpeningHours {
                             return;
                         }
                         isEdited[6] = true;
-                        day = Calendar.SUNDAY;
+                        day = DayOfWeek.SUNDAY;
                     break;
 
                     default:
@@ -194,17 +189,19 @@ public class WeeklyOpeningHours {
     }
 
     private void getCopy(WeeklyOpeningHours woh){
-        for(int day = 1; day < 8; day ++){
+        for( DayOfWeek day : DayOfWeek.values()){
             this.setOpeningHour(day, woh.dailyOpeningHours.get(day).get(0),  woh.dailyOpeningMinutes.get(day).get(0));
             this.setClosingHour(day, woh.dailyOpeningHours.get(day).get(1),  woh.dailyOpeningMinutes.get(day).get(1));
+
         }
     }
 
     public WeeklyOpeningHours copy(){
         WeeklyOpeningHours newWoh = new WeeklyOpeningHours();
-        for(int day = 1; day < 8; day ++){
-            newWoh.setOpeningHour(day, this.dailyOpeningHours.get(day).get(0),  this.dailyOpeningMinutes.get(day).get(0));
-            newWoh.setClosingHour(day, this.dailyOpeningHours.get(day).get(1),  this.dailyOpeningMinutes.get(day).get(1));
+        for( DayOfWeek day : DayOfWeek.values()){
+            this.setOpeningHour(day, newWoh.dailyOpeningHours.get(day).get(0),  newWoh.dailyOpeningMinutes.get(day).get(0));
+            this.setClosingHour(day, newWoh.dailyOpeningHours.get(day).get(1),  newWoh.dailyOpeningMinutes.get(day).get(1));
+
         }
         return newWoh;
     }

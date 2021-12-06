@@ -6,7 +6,6 @@ public class Console {
     Programation programation = Programation.getInstance();
 
 
-    
 
 }
 
