@@ -29,9 +29,10 @@ public class Theater {
      */
     private WeeklyOpeningHours openingHours;
 
-    public Theater(String name,String folderPath){
+    public Theater(String name,String folderPath,int capacity){
         this.name =name;
         this.openingHours = new WeeklyOpeningHours();
+        this.theaterCapacity=capacity;
 
         this.openingHours.loadPlanningFile(folderPath+name+".dtp");
         theaterDate = new Hashtable<LocalDate,TheaterDateInformation>();
@@ -135,5 +136,6 @@ public class Theater {
         return date.toString() + " " + theaterDate.get(date).toString();
     }
    
+
     
 }

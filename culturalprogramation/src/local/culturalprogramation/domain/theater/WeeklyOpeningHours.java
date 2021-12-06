@@ -96,7 +96,7 @@ public class WeeklyOpeningHours {
                     break;
                     case "TUE":
                         if(isEdited[1]){
-                            System.err.println("MON has already been loaded from this file!");
+                            System.err.println("TUE has already been loaded from this file!");
                             return;
                         }
                         isEdited[1] = true;
@@ -104,7 +104,7 @@ public class WeeklyOpeningHours {
                     break;
                     case "WED":
                         if(isEdited[2]){
-                            System.err.println("MON has already been loaded from this file!");
+                            System.err.println("WED has already been loaded from this file!");
                             return;
                         }
                         isEdited[2] = true;
@@ -112,7 +112,7 @@ public class WeeklyOpeningHours {
                     break;
                     case "THU":
                         if(isEdited[3]){
-                            System.err.println("MON has already been loaded from this file!");
+                            System.err.println("THU has already been loaded from this file!");
                             return;
                         }
                         isEdited[3] = true;
@@ -120,7 +120,7 @@ public class WeeklyOpeningHours {
                     break;
                     case "FRI":
                         if(isEdited[4]){
-                            System.err.println("MON has already been loaded from this file!");
+                            System.err.println("FRI has already been loaded from this file!");
                             return;
                         }
                         isEdited[4] = true;
@@ -128,7 +128,7 @@ public class WeeklyOpeningHours {
                     break;
                     case "SAT":
                         if(isEdited[5]){
-                            System.err.println("MON has already been loaded from this file!");
+                            System.err.println("SAT has already been loaded from this file!");
                             return;
                         }
                         isEdited[5] = true;
@@ -136,7 +136,7 @@ public class WeeklyOpeningHours {
                     break;
                         case "SUN":
                         if(isEdited[6]){
-                            System.err.println("MON has already been loaded from this file!");
+                            System.err.println("SUN has already been loaded from this file!");
                             return;
                         }
                         isEdited[6] = true;
