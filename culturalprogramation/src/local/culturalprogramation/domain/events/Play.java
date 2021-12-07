@@ -1,7 +1,7 @@
 package local.culturalprogramation.domain.events;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
+
 
 
 public class Play extends Event {

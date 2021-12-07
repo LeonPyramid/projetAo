@@ -6,13 +6,10 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
-import local.culturalprogramation.domain.events.Concert;
-import local.culturalprogramation.domain.events.Play;
 import local.culturalprogramation.domain.programtion.Programation;
 
- class Console {
+public class Console {
     private static Programation programation = Programation.getInstance();
     private static DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("dd/MM/yy");
 
@@ -75,13 +72,13 @@ import local.culturalprogramation.domain.programtion.Programation;
         }
     }
     private String THEATER(Scanner scan){
-        System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena");
+        System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena)");
         String name = scan.next();
         return name;
     }
     private  int  YEAR(Scanner scan){
         int year  = LocalDate.now().getYear();
-        System.out.println("Say us the year you want to program");
+        System.out.println("Tell us the year you want to program");
         while(true){
             int desiredYear = scan.nextInt();
             if(desiredYear < year){
