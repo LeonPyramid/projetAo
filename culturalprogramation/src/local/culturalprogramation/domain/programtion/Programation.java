@@ -151,14 +151,19 @@ public class Programation implements Serializable {
 
     
     public boolean removeEventPlay(String name, LocalDate date) {
-        
-        return false;
+        try {
+            Theater theater = inwichTheater(name, date);
+            theater.removeDayEventPlay(date);
+            return true;
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
     }
 
     public boolean removeEventConcert(String name, LocalDate date) {
         try {
             Theater theater = inwichTheater(name, date);
-            System.out.println(theater.toString());
             theater.removeDayEvent(date);
             return true;
         } catch (RuntimeException e) {
@@ -168,10 +173,6 @@ public class Programation implements Serializable {
         
     }
     
-
-    public String displayTheaterHours(String name) {
-        return null;
-    }
     
     public void close(String theater, LocalDate date){
     }

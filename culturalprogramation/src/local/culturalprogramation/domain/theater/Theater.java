@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import local.culturalprogramation.domain.events.Event;
+import local.culturalprogramation.domain.events.Play;
 
 /**
  * Class representing a theather.
@@ -69,7 +70,12 @@ public class Theater  implements Serializable{
      * @param date day to set the informations
      */
     public void setDayClosed(LocalDate date){
-        CreateDate(date, 00, 00, 00, 00);
+        if(!theaterDate.containsKey(date)){
+            CreateDate(date, 00, 00, 00, 00);       
+        }
+        else{
+            theaterDate.get(date).se
+        }
 
     }
 
@@ -100,6 +106,22 @@ public class Theater  implements Serializable{
         TheaterDateInformation tdi = theaterDate.get(date);
         tdi.removeEvent();  
     }
+
+    public void removeDayEventPlay(LocalDate date) {
+        if(!theaterDate.containsKey(date))
+            throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
+        if(theaterDate.get(date).getStatus()==TheaterStatus.CLOSED)
+            throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
+        TheaterDateInformation tdi = theaterDate.get(date);
+        Play play = (Play) tdi.getEvent();
+        LocalDate start = play.getStartDate();
+        LocalDate end = play.getEndDate();
+        for(; start.compareTo(end)<=0; start =start.plusDays(1)){
+            removeDayEvent(start);
+
+        }
+    }
+   
  
     
     public void setWeeklyDayOpeningHour(DayOfWeek day, int hour, int min ){
@@ -169,7 +191,8 @@ public class Theater  implements Serializable{
         return theaterDate.get(date).getEvent();
     
     }
-   
+
+    
 
     
 }

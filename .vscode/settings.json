@@ -6,4 +6,5 @@
     "java.project.referencedLibraries": [
         "culturalprogramation/lib/**/*.jar",
     ],
+    "java.dependency.syncWithFolderExplorer": true,
 }

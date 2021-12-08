@@ -45,6 +45,22 @@ public class TheaterDateInformation implements Serializable {
         this.status = TheaterStatus.CLOSED;
     }
 
+    public TheaterDateInformation(Event event,LocalDateTime opHour, LocalDateTime clHour){
+        if(clHour.isBefore(opHour)){
+            System.err.println("Warning: Opening hour and closing hour are reversed!\n Automatically reversing them");
+            LocalDateTime tmp = clHour;
+            clHour = opHour;
+            opHour = tmp;
+        } 
+        this.event = event;
+        this.openingHour = opHour;
+        this.closingHour = clHour;
+        if(!opHour.equals(clHour))
+            this.status = TheaterStatus.OCCUPIED;
+        else
+            this.status = TheaterStatus.CLOSED;
+    }
+
     
     /** 
      * @return Event
