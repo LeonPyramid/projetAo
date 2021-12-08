@@ -1,6 +1,11 @@
 package local.culturalprogramation.domain.programtion;
 
+import java.io.Serializable;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 import local.culturalprogramation.domain.events.Concert;
 import local.culturalprogramation.domain.events.Play;
@@ -8,7 +13,8 @@ import local.culturalprogramation.domain.programtion.PersonalBitMap.TheaterDate;
 import local.culturalprogramation.domain.theater.Theater;
 import local.culturalprogramation.domain.theater.WeeklyOpeningHours;
 
-public class Programation {
+public class Programation implements Serializable {
+    private static final long serialVersionUID = 1L;
     int year;
     WeeklyOpeningHours atablesHours;
     Theater Atabal;
@@ -118,6 +124,100 @@ public class Programation {
             td.getTheater().setDayEvent(td.getDate().plusDays(i), pl);
         return pl.toString()+ " at " + td.getTheater().getName();
     }
+    /**
+     * Display all the event of a theater in a precise week
+     * @param name name of the theater to display
+     * @param week week to display
+     * @return String contenning the display
+     */
+    public String displayTheater(String name, int week) {
+        List<Theater> theaterList = null;
+        try {
+            theaterList = findTheater(name);
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+        List<LocalDate> weekdates = dateOfWeek(week);
+        String ret = "";
+        for(Theater theater : theaterList){
+            ret += theater.getName() + " : \n";
+            for (LocalDate date : weekdates) {
+                ret = ret + "\t" +theater.getDateInfo(date) +"\n";
+            }
+        }
+        return ret;
+    }
+
+    
+    public boolean removeEventPlay(String name, LocalDate date) {
+        return false;
+    }
+
+    public boolean removeEventConcert(String name, LocalDate date) {
+        return false;
+    }
+    
+
+    public String displayTheaterHours(String name) {
+        return null;
+    }
+    
+    public void close(String theater, LocalDate date){
+    }
+
+    public void change(String theater, LocalDateTime dateo, LocalDateTime datef) {
+    }
 
 
+    
+    private List<Theater> findTheater(String name){
+        ArrayList<Theater> retList = new ArrayList<Theater>();
+        if(name.equals("Atabal"))
+            retList.add(Atabal);
+        else if(name.equals("Krakatoa"))
+            retList.add(Krakatoa);
+        else if(name.equals("Galaxie"))
+            retList.add(Galaxie);
+        else if(name.equals("Arena"))
+            retList.add(Arena);
+        else if(name.equals("ALL"))
+            for(Theater t : theaterTab)
+                retList.add(t);
+        else
+            throw new RuntimeException("Error: Theater name is invalid\n");
+        return retList;
+
+    }
+    /**
+     * Find the first monday of the year
+     * @param date a date with year set
+     * @return int of the firstMonday   
+     */
+    private int findFirstMonday(LocalDate date){
+        for (int i=1; i<=7; i++ ){
+            if(date.withDayOfYear(i).getDayOfWeek() == DayOfWeek.MONDAY){
+                return i;
+            }
+        }
+        return 0;
+    }
+
+
+    /**
+     * Create a list of all dates of a week
+     * @param week week to get dates
+     * @return List of LocalDate containing all the date of a week
+     */
+    private List<LocalDate> dateOfWeek(int week) {
+    List<LocalDate> weekdates = new ArrayList<>();
+        LocalDate dateWithYear = LocalDate.now();
+        dateWithYear = dateWithYear.withYear(this.year);
+        int firstMonday = findFirstMonday(dateWithYear);
+        dateWithYear= dateWithYear.withDayOfYear(firstMonday);
+        for(int i  = DayOfWeek.MONDAY.getValue(); i<=DayOfWeek.SUNDAY.getValue();i++){
+            LocalDate newDate = dateWithYear.plusWeeks(week-1).plusDays(i-1);
+            weekdates.add(newDate);
+        }
+        return weekdates;
+    }
 }

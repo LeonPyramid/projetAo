@@ -1,5 +1,6 @@
 package local.culturalprogramation.domain.programtion;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 
@@ -9,7 +10,8 @@ import local.culturalprogramation.domain.theater.TheaterStatus;
 /**
  * Contains, for each 3 principals theater, a boolean tab wich say if the day is occupied  
  */
-public class PersonalBitMap {
+public class PersonalBitMap implements Serializable {
+    private static final long serialVersionUID = 1L;
     class TheaterDate{
         private Theater theater;
         private LocalDate date;

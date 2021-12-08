@@ -2,6 +2,7 @@ package local.culturalprogramation.domain.theater;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -11,7 +12,8 @@ import java.util.Hashtable;
 import java.util.List;
 
 
-public class WeeklyOpeningHours {
+public class WeeklyOpeningHours implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Hashtable<Integer,List<Integer>> dailyOpeningHours;
     private Hashtable<Integer,List<Integer>> dailyOpeningMinutes;
     

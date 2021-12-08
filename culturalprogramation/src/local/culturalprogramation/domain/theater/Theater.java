@@ -1,6 +1,7 @@
 package local.culturalprogramation.domain.theater;
 
 import java.util.Hashtable;
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,8 +13,8 @@ import local.culturalprogramation.domain.events.Event;
  * Class representing a theather.
  *
  */
-public class Theater {
-
+public class Theater  implements Serializable{
+    private static final long serialVersionUID = 1L;
     private String name;
     /**
      * Integer representing the capacity of the theater
@@ -95,7 +96,7 @@ public class Theater {
         if(!theaterDate.containsKey(date))
             throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
         if(theaterDate.get(date).getStatus()!=TheaterStatus.CLOSED)
-            throw new RuntimeException("The theater "+name+" hasn't prepared the dzte yet\n");
+            throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
         TheaterDateInformation tdi = theaterDate.get(date);
         tdi.removeEvent();  
     }
@@ -155,7 +156,7 @@ public class Theater {
 
     public String getDateInfo(LocalDate date){
         if(!(theaterDate.containsKey(date))){
-            throw new RuntimeException("The date doesn't exists\n");
+            this.CreateDate(date);
         }
         return date.toString() + " " + theaterDate.get(date).toString();
     }

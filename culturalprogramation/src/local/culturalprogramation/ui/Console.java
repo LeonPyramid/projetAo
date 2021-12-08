@@ -1,16 +1,16 @@
 package local.culturalprogramation.ui;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
 
-import local.culturalprogramation.domain.events.Concert;
-import local.culturalprogramation.domain.events.Play;
 import local.culturalprogramation.domain.programtion.Programation;
+import local.culturalprogrammation.repository.ProgramationRepository;
 
- class Console {
+public class Console {
     private static Programation programation = Programation.getInstance();
     private static DateTimeFormatter formatter =  DateTimeFormatter.ofPattern("dd/MM/yy");
 
@@ -50,7 +50,7 @@ import local.culturalprogramation.domain.programtion.Programation;
                     HOURS(scan);
                     break;
                 case "SAVE":
-                    SAVE();
+                    SAVE(scan);
                     break;
                 case "LOAD":
                     LOAD(scan);
@@ -61,19 +61,25 @@ import local.culturalprogramation.domain.programtion.Programation;
                 case "WIP":
                     WIP();
                     break;
+                case "CLOSE":
+                    CLOSE(scan);
+                    break;
+                case "CHANGE":
+                    CHANGE(scan);
+                    break;
                 default:
                     System.err.println("No Corresponding Command");
             }
         }
     }
     private String THEATER(Scanner scan){
-        System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena");
+        System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena, ALL)");
         String name = scan.next();
         return name;
     }
     private  int  YEAR(Scanner scan){
         int year  = LocalDate.now().getYear();
-        System.out.println("Say us the year you want to program");
+        System.out.println("Tell us the year you want to program");
         while(true){
             int desiredYear = scan.nextInt();
             if(desiredYear < year){
@@ -89,11 +95,17 @@ import local.culturalprogramation.domain.programtion.Programation;
     private  int WEEK(Scanner scan){
         System.out.println("On wich week, do you want to work");
         while (true){
-            int week  = scan.nextInt();
-            if(week>0 && week <= 52){
-                return week;
+            try{
+                int week  = scan.nextInt();
+                if(week>0 && week <= 52){
+                    return week;
+                }
+                System.out.println("Week number must be in [1;52]");
             }
-            System.out.println("Week number must be in [1;52]");
+            catch(Exception e){
+                System.err.println("This is not an integer!");
+                scan.nextLine();
+            }
         }
         
     }
@@ -105,7 +117,26 @@ import local.culturalprogramation.domain.programtion.Programation;
             System.out.println("4. Display a theater's weekly HOURS ");
             System.out.println("5. SAVE the programation ");
             System.out.println("6. LOAD a programation ");
-            System.out.println("7. QUIT the program");
+            System.out.println("7. Set Day CLOSE ");
+            System.out.println("8. CHANGE day hours ");
+            System.out.println("9. QUIT the program");
+    }
+    private int lengthPlay(Scanner scan){
+        System.out.println("Enter the number of representation you want : (maximun 7)");
+        while (true){
+            int length  = scan.nextInt();
+            if(length>0 && length<=7){
+                return length;
+            }
+            System.out.println("Length number must be in [1;7]");
+        }
+    }
+    private LocalDate DATE(Scanner scan){
+        System.out.println("Choose a date *dd/MM/yy*");
+        String sdate = scan.next();
+        LocalDate date = LocalDate.parse(sdate,formatter);
+        return date;
+
     }
 
     private  void WIP(){
@@ -136,13 +167,14 @@ import local.culturalprogramation.domain.programtion.Programation;
         String name = scan.next();
         System.out.println("Enter the desired capacity of the play");
         int desiredCapacity = scan.nextInt();
-        System.out.println("Enter the number of representation you want : ");
-        int length = scan.nextInt();
-        boolean done =programation.setPlay(name,desiredCapacity,length,week);
-        if(done)
-            System.out.println("Concert set!");
-        else
-            System.out.println("Week is full");  
+        int length = lengthPlay(scan);
+        String done ="";
+        try {
+            done =programation.setPlay(name,desiredCapacity,length,week);
+        } catch (RuntimeException e) {
+            System.err.println("Year is full"); 
+        }
+        System.out.println(done); 
 
     }
     private  void CONCERT(Scanner scan,int week){
@@ -150,11 +182,13 @@ import local.culturalprogramation.domain.programtion.Programation;
         String name = scan.next();
         System.out.println("Enter the desired capacity of the play");
         int desiredCapacity = scan.nextInt();
-        boolean  done  = programation.setConcert(name,desiredCapacity,week);
-        if(done)
-            System.out.println("Concert set!");
-        else
-            System.out.println("Week is full");  
+        String done ="";
+        try {
+            done =programation.setConcert(name,desiredCapacity,week);
+        } catch (RuntimeException e) {
+            System.err.println("Year is full"); 
+        }
+        System.out.println(done);  
     }
 
 
@@ -205,17 +239,61 @@ import local.culturalprogramation.domain.programtion.Programation;
         }
     }
 
-    private void SAVE(){
-        String path = programation.save();
-        System.out.println("Programtion saved in : " + path );
+    private void SAVE(Scanner scan){
+        System.out.println("Give us the path to the programation to save"); 
+        String path =  scan.next();
+        String check;
+        try{
+            check = ProgramationRepository.saveProgramation(programation, path);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.err.println("Could not save the file");
+        }
+        check = null;
+        System.out.println("Programation saved in : " + path );
     }
 
     private void LOAD(Scanner scan){
-        System.out.println("Give us the path to the programtion to load"); 
+        System.out.println("Give us the path to the programation to load"); 
         String path =  scan.next();
-        String ret  = programation.load(path);
-        System.out.println(ret);
+        try{
+            programation = ProgramationRepository.loadProgramation(path);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.err.println("Could not load the file");
+        }
     }
 
+    private void CLOSE(Scanner scan){
+        String theater = THEATER(scan);
+        LocalDate date = DATE(scan);
+        programation.close(theater,date);
+    }
+
+    private void CHANGE(Scanner scan){
+        String theater = THEATER(scan);
+        LocalDate date = DATE(scan);
+        System.out.println("Heure d'ouverture : *hh*");
+        int ho = scan.nextInt();
+        System.out.println("Minutes d'ouverture : *mm*");
+        int mo = scan.nextInt();
+        System.out.println("Heure de fermeture : *hh*");
+        int hf = scan.nextInt();
+        System.out.println("Minutes de fermeture : *mm*");
+        int mf = scan.nextInt();
+        LocalDateTime datetime = LocalDateTime.of(date,LocalTime.now());
+        LocalDateTime dateo = datetime;
+        dateo = dateo.withHour(ho);
+        dateo = dateo.withMinute(mo);
+
+        LocalDateTime datef =datetime;
+        datef = datef.withHour(hf);
+        datef = datef.withMinute(mf);
+        
+        programation.change(theater,dateo,datef);
+
+    }
 
 }

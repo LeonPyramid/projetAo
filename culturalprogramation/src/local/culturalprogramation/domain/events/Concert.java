@@ -1,10 +1,12 @@
 package local.culturalprogramation.domain.events;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 
-public class Concert extends Event{
+public class Concert extends Event implements Serializable{
     
+    private static final long serialVersionUID = 1L;
     private String groupName;
     private LocalDate date;
     
