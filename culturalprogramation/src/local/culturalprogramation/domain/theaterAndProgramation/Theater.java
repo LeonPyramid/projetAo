@@ -1,6 +1,7 @@
 package local.culturalprogramation.domain.theaterAndProgramation;
 
 import java.util.Hashtable;
+import java.util.UUID;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -16,7 +17,8 @@ import local.culturalprogramation.domain.events.Play;
  */
 class Theater  implements Serializable{
     private static final long serialVersionUID = 1L;
-    private String name;
+    private final String name;
+	protected final UUID id;
     /**
      * Integer representing the capacity of the theater
      */
@@ -35,11 +37,15 @@ class Theater  implements Serializable{
         this.name =name;
         this.openingHours = new WeeklyOpeningHours();
         this.theaterCapacity=capacity;
-
+        this.id = UUID.randomUUID();
         this.openingHours.loadPlanningFile(folderPath+name+".dtp");
         theaterDate = new Hashtable<LocalDate,TheaterDateInformation>();
 
     }
+
+    UUID getId() {
+		return id;
+	}
 
     /**
      * Get the theater capacity

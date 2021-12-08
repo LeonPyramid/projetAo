@@ -6,8 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-import local.culturalprogramation.domain.programtion.Programation;
-import local.culturalprogrammation.repository.ProgramationRepository;
+import local.culturalprogramation.domain.theaterAndProgramation.Programation;
+import local.culturalprogramation.repository.ProgramationRepository;
 
 public class Console {
     private static Programation programation = Programation.getInstance();
@@ -244,7 +244,7 @@ public class Console {
 
     private void HOURS(Scanner scan){
         String name = THEATER(scan);
-        System.out.println(programation.displayTheaterHours(name));
+        //System.out.println(programation.displayTheaterHours(name));
     }
 
     private void REMOVE(Scanner scan){
