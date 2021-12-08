@@ -4,8 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
-
 
 import local.culturalprogramation.domain.programtion.Programation;
 import local.culturalprogrammation.repository.ProgramationRepository;
@@ -35,7 +35,7 @@ public class Console {
         Boolean stay = true;
         while(stay){
             waitUserPrint();
-            String opt = scan.next();
+            String opt = scan.nextLine();
             switch(opt){
                 case "ADD":
                     ADD(scan);
@@ -74,19 +74,24 @@ public class Console {
     }
     private String THEATER(Scanner scan){
         System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena, ALL)");
-        String name = scan.next();
+        String name = scan.nextLine();;
         return name;
     }
     private  int  YEAR(Scanner scan){
         int year  = LocalDate.now().getYear();
         System.out.println("Tell us the year you want to program");
         while(true){
-            int desiredYear = scan.nextInt();
-            if(desiredYear < year){
-                System.err.println("Year must be supperior as the current year");
+            try{
+                int desiredYear = Integer.parseInt(scan.nextLine());
+                if(desiredYear < year){
+                    System.err.println("Year must be supperior as the current year");
+                }
+                else{
+                    return desiredYear;
+                }
             }
-            else{
-                return desiredYear;
+            catch(NumberFormatException e){
+                System.err.println("This is not an integer!");
             }
 
         }
@@ -96,15 +101,14 @@ public class Console {
         System.out.println("On wich week, do you want to work");
         while (true){
             try{
-                int week  = scan.nextInt();
+                int week  = Integer.parseInt(scan.nextLine());
                 if(week>0 && week <= 52){
                     return week;
                 }
                 System.out.println("Week number must be in [1;52]");
             }
-            catch(Exception e){
+            catch(NumberFormatException e){
                 System.err.println("This is not an integer!");
-                scan.nextLine();
             }
         }
         
@@ -124,18 +128,30 @@ public class Console {
     private int lengthPlay(Scanner scan){
         System.out.println("Enter the number of representation you want : (maximun 7)");
         while (true){
-            int length  = scan.nextInt();
-            if(length>0 && length<=7){
-                return length;
+            try{
+                int length  = Integer.parseInt(scan.nextLine());
+                if(length>0 && length<=7){
+                    return length;
+                }
+                System.out.println("Length number must be in [1;7]");
             }
-            System.out.println("Length number must be in [1;7]");
+            catch(NumberFormatException e){
+                System.err.println("This is not an integer!");
+            }
         }
     }
     private LocalDate DATE(Scanner scan){
-        System.out.println("Choose a date *dd/MM/yy*");
-        String sdate = scan.next();
-        LocalDate date = LocalDate.parse(sdate,formatter);
-        return date;
+        while(true){
+            System.out.println("Choose a date *dd/MM/yy*");
+            String sdate = scan.nextLine();
+            try{
+                LocalDate date = LocalDate.parse(sdate,formatter);
+                return date;
+            }
+            catch(DateTimeParseException e){
+                System.err.println("This is not a date, or at a wrong format");
+            }
+        }
 
     }
 
@@ -146,7 +162,7 @@ public class Console {
     private  void ADD(Scanner scan){
         int week  = WEEK(scan);
         System.out.println("Choose the type of event : PLAY or CONCERT");
-        String opt = scan.next();
+        String opt = scan.nextLine();
         switch(opt){
             case "PLAY":
                 PLAY(scan,week);
@@ -164,9 +180,24 @@ public class Console {
     private  void PLAY(Scanner scan, int week){
         
         System.out.println("Enter the name of the play");
-        String name = scan.next();
-        System.out.println("Enter the desired capacity of the play");
-        int desiredCapacity = scan.nextInt();
+        String name = scan.nextLine();
+        int desiredCapacity;
+        while(true){
+            System.out.println("Enter the desired capacity of the play");
+            try{
+                desiredCapacity = Integer.parseInt(scan.nextLine());
+                if(desiredCapacity< 1){
+                    System.err.println("Capacity must be positive");
+                }
+                else{
+                    break;
+                }
+            }
+            catch(NumberFormatException e){
+                System.err.println("This is not an integer!");
+            }
+        }
+
         int length = lengthPlay(scan);
         String done ="";
         try {
@@ -179,9 +210,23 @@ public class Console {
     }
     private  void CONCERT(Scanner scan,int week){
         System.out.println("Enter the name of the artist");
-        String name = scan.next();
-        System.out.println("Enter the desired capacity of the play");
-        int desiredCapacity = scan.nextInt();
+        String name = scan.nextLine();
+        int desiredCapacity;
+        while(true){
+            System.out.println("Enter the desired capacity of the play");
+            try{
+                desiredCapacity = Integer.parseInt(scan.nextLine());
+                if(desiredCapacity< 1){
+                    System.err.println("Capacity must be positive");
+                }
+                else{
+                    break;
+                }
+            }
+            catch(NumberFormatException e){
+                System.err.println("This is not an integer!");
+            }
+        }
         String done ="";
         try {
             done =programation.setConcert(name,desiredCapacity,week);
@@ -205,14 +250,13 @@ public class Console {
 
     private void REMOVE(Scanner scan){
         System.out.println("Choose the type of event : PLAY or CONCERT");
-        String opt = scan.next();
+        String opt = scan.nextLine();
         switch(opt){
             case "PLAY":
                 System.out.println("Enter the name of the play");
-                String name = scan.next();
-                System.out.println("Enter the date of the play *dd/MM/yy* (will remove all the consecutives dates)");
-                String stringDate = scan.next();
-                LocalDate date = LocalDate.parse(stringDate, formatter);
+                String name = scan.nextLine();
+                System.out.print("Enter the date of the play, ");
+                LocalDate date = DATE(scan);
                 boolean check = programation.removeEventPlay(name,date);
                 if (check)
                     System.out.println("Remove done !");
@@ -222,10 +266,9 @@ public class Console {
 
             case "CONCERT":
                 System.out.println("Enter the name of the concert");
-                name = scan.next();
-                System.out.println("Enter the date of the concert *dd/MM/yy*");
-                stringDate = scan.next();
-                date = LocalDate.parse(stringDate, formatter);
+                name = scan.nextLine();
+                System.out.print("Enter the date of the concert, ");
+                date = DATE(scan);
                 check = programation.removeEventConcert(name,date);
                 if (check)
                     System.out.println("Remove done !");
@@ -241,7 +284,7 @@ public class Console {
 
     private void SAVE(Scanner scan){
         System.out.println("Give us the path to the programation to save"); 
-        String path =  scan.next();
+        String path =  scan.nextLine();
         String check;
         try{
             check = ProgramationRepository.saveProgramation(programation, path);
@@ -256,14 +299,18 @@ public class Console {
 
     private void LOAD(Scanner scan){
         System.out.println("Give us the path to the programation to load"); 
-        String path =  scan.next();
+        String path =  scan.nextLine();
+        Programation tmpProg = null;
+    
         try{
-            programation = ProgramationRepository.loadProgramation(path);
+            tmpProg = ProgramationRepository.loadProgramation(path);
         }
         catch(Exception e){
             e.printStackTrace();
             System.err.println("Could not load the file");
         }
+        if (tmpProg != null)
+            programation = tmpProg;
     }
 
     private void CLOSE(Scanner scan){
@@ -275,22 +322,26 @@ public class Console {
     private void CHANGE(Scanner scan){
         String theater = THEATER(scan);
         LocalDate date = DATE(scan);
-        System.out.println("Heure d'ouverture : *hh*");
-        int ho = scan.nextInt();
-        System.out.println("Minutes d'ouverture : *mm*");
-        int mo = scan.nextInt();
-        System.out.println("Heure de fermeture : *hh*");
-        int hf = scan.nextInt();
-        System.out.println("Minutes de fermeture : *mm*");
-        int mf = scan.nextInt();
+        String line;
+        while(true){
+            System.out.println("Please enter the new opening hour and closing hour *HH:MM,HH:MM*");
+            line = scan.nextLine();
+            if(!line.matches("d{2}\\:\\d{2}\\,\\d{2}\\:\\d{2}")){
+                System.err.println("Entry format not matching a planning format: HH:MM,HH:MM");
+            }
+            else{
+                break;
+            }
+        }
+        String split[] = line.split("\\:|\\,");
         LocalDateTime datetime = LocalDateTime.of(date,LocalTime.now());
         LocalDateTime dateo = datetime;
-        dateo = dateo.withHour(ho);
-        dateo = dateo.withMinute(mo);
+        dateo = dateo.withHour(Integer.parseInt(split[0]));
+        dateo = dateo.withMinute(Integer.parseInt(split[1]));
 
         LocalDateTime datef =datetime;
-        datef = datef.withHour(hf);
-        datef = datef.withMinute(mf);
+        datef = datef.withHour(Integer.parseInt(split[2]));
+        datef = datef.withMinute(Integer.parseInt(split[3]));
         
         programation.change(theater,dateo,datef);
 
