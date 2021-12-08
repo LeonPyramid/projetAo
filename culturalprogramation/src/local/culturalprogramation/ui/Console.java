@@ -334,16 +334,10 @@ public class Console {
             }
         }
         String split[] = line.split("\\:|\\,");
-        LocalDateTime datetime = LocalDateTime.of(date,LocalTime.now());
-        LocalDateTime dateo = datetime;
-        dateo = dateo.withHour(Integer.parseInt(split[0]));
-        dateo = dateo.withMinute(Integer.parseInt(split[1]));
 
-        LocalDateTime datef =datetime;
-        datef = datef.withHour(Integer.parseInt(split[2]));
-        datef = datef.withMinute(Integer.parseInt(split[3]));
         
-        programation.change(theater,dateo,datef);
+        programation.change(theater,date,Integer.parseInt(split[0]),Integer.parseInt(split[1])
+            ,Integer.parseInt(split[2]),Integer.parseInt(split[3]));
 
     }
 

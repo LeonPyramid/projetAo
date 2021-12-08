@@ -147,6 +147,17 @@ public class Theater  implements Serializable{
         theaterDate.put(date, newInformation);
     }
 
+    public void RemoveDate(LocalDate date){
+        if(!theaterDate.containsKey(date)){
+            throw new RuntimeException("The date doesn't exists\n");
+        }
+        if(getDateStatus(date)==TheaterStatus.OCCUPIED){
+            throw new RuntimeException("The date has an event, hense cannot be changed\n");
+        }
+
+        theaterDate.remove(date);
+    }
+
     public TheaterStatus getDateStatus(LocalDate date){
         if(!(theaterDate.containsKey(date))){
             this.CreateDate(date);
