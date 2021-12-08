@@ -1,12 +1,11 @@
 package local.culturalprogramation.domain.events;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
-public class Concert extends Event implements Serializable{
+public class Concert extends Event{
     
-    private static final long serialVersionUID = 1L;
     private String groupName;
     private LocalDate date;
     
@@ -28,6 +27,7 @@ public class Concert extends Event implements Serializable{
 
     @Override
     public String toString() {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yy");
         return "Concert :" + groupName + ", " + date.format(fmt);
     }
 

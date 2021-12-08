@@ -1,13 +1,13 @@
 package local.culturalprogramation.domain.events;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 
-public class Play extends Event implements Serializable {
+public class Play extends Event {
 
-    private static final long serialVersionUID = 1L;
+
     private String companyName;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -26,18 +26,7 @@ public class Play extends Event implements Serializable {
         this.endDate = dend;
         
     }
-    /**
-     * 
-     * @return get name of play
-     */
-    public String getCompanyName() {
-        return companyName;
-    }
-
-    public LocalDate getEndDate() {
-        return endDate;
-    }
-    public LocalDate getStartDate() {
+    /**    transient protected 
         return startDate;
     }
     /**
@@ -46,12 +35,14 @@ public class Play extends Event implements Serializable {
      * 
      */
     public String getStringDate(){
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yy");
         String interval = "["+startDate.format(fmt)+":"+endDate.format(fmt)+"]";
         return interval;
     }
 
     @Override
     public String toString() {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yy");
         return "Play :" + companyName + ",from " + startDate.format(fmt) + " to " + endDate.format(fmt);
     }
 
