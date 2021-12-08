@@ -3,7 +3,6 @@ package local.culturalprogramation.domain.programtion;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -177,7 +176,16 @@ public class Programation implements Serializable {
     public void close(String theater, LocalDate date){
     }
 
-    public void change(String theater, LocalDateTime dateo, LocalDateTime datef) {
+    public void change(String theater, LocalDate date, int openingHour, int openingMinute, int closingHour, int closingMinutes) {
+        try {
+            Theater t = findTheater(theater).get(0);
+            t.RemoveDate(date);
+            t.CreateDate(date,openingHour,openingMinute,closingHour,closingMinutes);
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+        
     }
 
 
