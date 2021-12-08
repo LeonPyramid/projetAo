@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 import local.culturalprogramation.domain.events.Event;
 import local.culturalprogramation.domain.events.Play;
@@ -239,7 +240,8 @@ class Theater  implements Serializable{
         if(!(theaterDate.containsKey(date))){
             this.CreateDate(date);
         }
-        return date.toString() + " " + theaterDate.get(date).toString();
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yy");
+        return date.format(fmt) + " " + theaterDate.get(date).toString();
     }
     
     /**

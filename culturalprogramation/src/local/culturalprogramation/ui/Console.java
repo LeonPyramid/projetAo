@@ -66,11 +66,19 @@ public class Console {
                 case "OPEN" :
                     OPEN(scan);
                     break;
+                case "PROGRAMATION":
+                    PROGRAMATION(scan);
                 default:
                     System.err.println("No Corresponding Command");
             }
         }
     }
+    private void PROGRAMATION(Scanner scan) {
+        String name = THEATER(scan);
+        System.out.println(programation.displayYear(name));
+
+    }
+
     private String THEATER(Scanner scan){
         System.out.println("Wich theater you want? (Atabal, Krakatoa, Galaxie, Arena, ALL)");
         String name = scan.nextLine();;
@@ -117,12 +125,13 @@ public class Console {
             System.out.println("1. ADD an event in a theater ");
             System.out.println("2. REMOVE an event in a theater ");
             System.out.println("3. Display a theather weekly PLANNING ");
-            System.out.println("4. SAVE the programation ");
-            System.out.println("5. LOAD a programation ");
-            System.out.println("6. Set Day OPEN ");
-            System.out.println("7. Set Day CLOSE ");
-            System.out.println("8. CHANGE day hours ");
-            System.out.println("9. QUIT the program");
+            System.out.println("4: Display a theater year PROGRAMATION");
+            System.out.println("5. SAVE the programation ");
+            System.out.println("6. LOAD a programation ");
+            System.out.println("7. Set Day OPEN ");
+            System.out.println("8. Set Day CLOSE ");
+            System.out.println("9. CHANGE day hours ");
+            System.out.println("10. QUIT the program");
     }
     private int lengthPlay(Scanner scan){
         System.out.println("Enter the number of representation you want : (maximun 7)");
