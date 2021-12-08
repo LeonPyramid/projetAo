@@ -45,9 +45,6 @@ public class Console {
                 case "PLANNING":
                     PLANNING(scan);
                     break;
-                case "HOURS":
-                    HOURS(scan);
-                    break;
                 case "SAVE":
                     SAVE(scan);
                     break;
@@ -65,6 +62,9 @@ public class Console {
                     break;
                 case "CHANGE":
                     CHANGE(scan);
+                    break;
+                case "OPEN" :
+                    OPEN(scan);
                     break;
                 default:
                     System.err.println("No Corresponding Command");
@@ -117,9 +117,9 @@ public class Console {
             System.out.println("1. ADD an event in a theater ");
             System.out.println("2. REMOVE an event in a theater ");
             System.out.println("3. Display a theather weekly PLANNING ");
-            System.out.println("4. Display a theater's weekly HOURS ");
-            System.out.println("5. SAVE the programation ");
-            System.out.println("6. LOAD a programation ");
+            System.out.println("4. SAVE the programation ");
+            System.out.println("5. LOAD a programation ");
+            System.out.println("6. Set Day OPEN ");
             System.out.println("7. Set Day CLOSE ");
             System.out.println("8. CHANGE day hours ");
             System.out.println("9. QUIT the program");
@@ -242,10 +242,7 @@ public class Console {
         System.out.println(programation.displayTheater(name,week));
     }
 
-    private void HOURS(Scanner scan){
-        String name = THEATER(scan);
-        //System.out.println(programation.displayTheaterHours(name));
-    }
+    
 
     private void REMOVE(Scanner scan){
         System.out.println("Choose the type of event : PLAY or CONCERT");
@@ -335,6 +332,12 @@ public class Console {
         
         programation.change(theater,date,Integer.parseInt(split[0]),Integer.parseInt(split[1])
             ,Integer.parseInt(split[2]),Integer.parseInt(split[3]));
+    }
+
+    private void OPEN(Scanner scan){
+        String theater = THEATER(scan);
+        LocalDate date = DATE(scan);
+        programation.open(theater,date); 
     }
 
 }

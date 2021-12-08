@@ -9,7 +9,7 @@
             "name": "Launch Main",
             "request": "launch",
             "mainClass": "local.culturalprogramation.tests.Main",
-            "projectName": "projet_f52d8221"
+            "projectName": "projetAo_52f56a43"
         },
         {
             "type": "java",

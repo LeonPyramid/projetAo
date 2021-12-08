@@ -186,9 +186,6 @@ public class WeeklyOpeningHours implements Serializable {
         }
     }
 
-    public void savePlanningFile(String path){
-        //TODO:Save a file copy of a PlanningFile
-    }
 
     private void getCopy(WeeklyOpeningHours woh){
         for( DayOfWeek day : DayOfWeek.values()){

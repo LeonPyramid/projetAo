@@ -64,7 +64,10 @@ class Theater  implements Serializable{
      * If the weekly planning says that this day of week is closed, will set the day to closed too and give a warning.
      * @param date day to set the informations
      */
-    void setDayOpen(LocalDate date){
+    public void setDayOpen(LocalDate date){
+        if(theaterDate.containsKey(date) && theaterDate.get(date).getStatus()==TheaterStatus.CLOSED){
+            RemoveDate(date);
+        }
         CreateDate(date);
         if (theaterDate.get(date).getStatus()!=TheaterStatus.OPEN){
             System.err.println(("Warning: This day has no opening hours set. Day is set as CLOSED"));
@@ -75,9 +78,12 @@ class Theater  implements Serializable{
      * Set the information of the day but with closed parameters.
      * @param date day to set the informations
      */
-    void setDayClosed(LocalDate date){
-        if(!theaterDate.containsKey(date)){
-            CreateDate(date, 00, 00, 00, 00);       
+    public void setDayClosed(LocalDate date){
+        if(!(theaterDate.containsKey(date))){
+            this.CreateDate(date,0,0,0,0);
+        }
+        if(theaterDate.get(date).getStatus() == TheaterStatus.OCCUPIED){
+            return;     
         }
         else{
             theaterDate.put(date, new  TheaterDateInformation());
