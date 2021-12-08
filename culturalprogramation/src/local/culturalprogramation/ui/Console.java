@@ -2,8 +2,6 @@
 package local.culturalprogramation.ui;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
@@ -286,15 +284,13 @@ public class Console {
     private void SAVE(Scanner scan){
         System.out.println("Give us the path to the programation to save"); 
         String path =  scan.nextLine();
-        String check;
         try{
-            check = ProgramationRepository.saveProgramation(programation, path);
+            ProgramationRepository.saveProgramation(programation, path);
         }
         catch(Exception e){
             e.printStackTrace();
             System.err.println("Could not save the file");
         }
-        check = null;
         System.out.println("Programation saved in : " + path );
     }
 
