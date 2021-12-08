@@ -43,7 +43,11 @@ public class Programation implements Serializable {
         
         galaxieHours  = new WeeklyOpeningHours();
         Galaxie = new Theater("Galaxie","DateTimePlanning/",350);
-        bitMap = new PersonalBitMap(Atabal, Galaxie, Krakatoa,LocalDate.now().getYear());
+        List<Theater> tList = new ArrayList<Theater>();
+        tList.add(Atabal);
+        tList.add(Galaxie);
+        tList.add(Krakatoa);
+        bitMap = new PersonalBitMap(tList,LocalDate.now().getYear());
         theaterTab = new Theater[4];
         theaterTab[0] = Atabal;
         theaterTab[1] = Galaxie;
@@ -62,7 +66,11 @@ public class Programation implements Serializable {
      */
     public void setYear(int year) {
         this.year = year;
-        bitMap = new PersonalBitMap(Atabal, Galaxie, Krakatoa,year);
+        List<Theater> tList = new ArrayList<Theater>();
+        tList.add(Atabal);
+        tList.add(Galaxie);
+        tList.add(Krakatoa);
+        bitMap = new PersonalBitMap(tList,LocalDate.now().getYear());
     }
 
     /**
@@ -108,7 +116,7 @@ public class Programation implements Serializable {
             theaterToTest[0] = (theaterTab[0].getTheaterCapacity() > capacityDesired);
             theaterToTest[1] = (theaterTab[1].getTheaterCapacity() > capacityDesired);
             theaterToTest[2] = (theaterTab[2].getTheaterCapacity() > capacityDesired);
-            td = bitMap.findDate(year, week, theaterToTest);
+            td = bitMap.findDateRange(year, week, range, theaterToTest);
             if(td==null){
                 if(week>52){
                     throw new RuntimeException("Error: No more space in this year\n");

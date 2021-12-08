@@ -1,4 +1,4 @@
-package local.culturalprogrammation.repository;
+package local.culturalprogramation.repository;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

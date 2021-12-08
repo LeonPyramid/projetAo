@@ -12,7 +12,7 @@ ADD
 PLAY
 MAMA MAYA
 45
-4
+2
 SAVE
 ../save.prg
 QUIT

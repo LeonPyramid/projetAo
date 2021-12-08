@@ -3,6 +3,8 @@ package local.culturalprogramation.domain.theaterAndProgramation;
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 /**
  * Contains, for each 3 principals theater, a boolean tab wich say if the day is occupied  
  */
@@ -25,16 +27,17 @@ public class PersonalBitMap implements Serializable {
         }
     }
     
-    Theater [] theaters = new Theater[3];
-    boolean [] theater1 = new boolean [366];
-    boolean [] theater2 = new boolean [366];
-    boolean [] theater3 = new boolean [366];
+    private final List<Theater> theaters;
+    List<boolean []> TheatersBitmap;
     
     
-    public PersonalBitMap(Theater one, Theater two, Theater three, int year){
-        theaters[0] = one;
-        theaters[1] = two;
-        theaters[2] = three;
+    public PersonalBitMap(List<Theater> thList, int year){
+        theaters = new ArrayList<Theater>();
+        theaters.addAll(thList);
+        TheatersBitmap = new ArrayList<boolean []>();
+        for(Theater t : theaters){
+            TheatersBitmap.add(new boolean[366]);
+        }
         LocalDate dateForYear = LocalDate.now().withYear(year);
         int firstMonday = findFirstMonday(dateForYear);
         /*Create empty date for the first week in each theater, if day of week is closed, set all the 
@@ -42,32 +45,17 @@ public class PersonalBitMap implements Serializable {
         TheaterStatus ts = null;
         for( int i = 0 ; i < 7 ; i++){
             LocalDate d = LocalDate.now().withYear(year).withDayOfYear(firstMonday+i);
-            
-            ts = one.getDateStatus(d);
-            if(ts == TheaterStatus.CLOSED){
-                for(int week = 0; week < 53; week++){
-                    int wday = (week)*7+firstMonday;
-                    if(wday < 365)
-                        theater1[wday] = true;
+            for(Theater t : theaters){
+                int index = theaters.indexOf(t);
+                ts = t.getDateStatus(d);
+                if(ts == TheaterStatus.CLOSED){
+                    for(int week = 0; week < 53; week++){
+                        int wday = (week)*7+firstMonday;
+                        if(wday < 365)
+                            TheatersBitmap.get(index)[wday] = true;
+                    }
                 }
             }
-            ts = two.getDateStatus(d);
-            if(ts == TheaterStatus.CLOSED){
-                for(int week = 0; week < 53; week++){
-                    int wday = (week)*7+firstMonday;
-                    if(wday < 365)
-                        theater2[wday] = true;
-                }
-            }
-            ts = three.getDateStatus(d);
-            if(ts == TheaterStatus.CLOSED){
-                for(int week = 0; week < 53; week++){
-                    int wday = (week)*7+firstMonday;
-                    if(wday < 365)
-                        theater3[wday] = true;
-                }
-            }
-
         }
         
     }
@@ -136,31 +124,21 @@ public class PersonalBitMap implements Serializable {
         
         int start = (week -1)*7+firstMonday;
         for (int i = 5; i<7; i++){
-            if (!theater1[start+i] && theaterToTest[0]){
-                theater1[start+i] = true;
-                return  new TheaterDate(theaters[0], date.withDayOfYear(start+i));
-            }
-            if (!theater2[start+i] && theaterToTest[1]){
-                theater2[start+i] = true;
-                return  new TheaterDate(theaters[1], date.withDayOfYear(start+i));
-            }
-            if (!theater3[start+i] && theaterToTest[2]){
-                theater3[start+i] = true;
-                return  new TheaterDate(theaters[2], date.withDayOfYear(start+i));
+            for(Theater t: theaters){
+                int index = theaters.indexOf(t);
+                if (!TheatersBitmap.get(index)[start+i] && theaterToTest[index]){
+                    TheatersBitmap.get(index)[start+i] = true;
+                    return  new TheaterDate(t, date.withDayOfYear(start+i));
+                }
             }
         }
         for (int  i = 0; i<5; i++){
-            if (!theater1[start+i] && theaterToTest[0]){
-                theater1[start+i] = true;
-                return  new TheaterDate(theaters[0], date.withDayOfYear(start+i));
-            }
-            if (!theater2[start+i] && theaterToTest[1]){
-                theater2[start+i] = true;
-                return  new TheaterDate(theaters[1], date.withDayOfYear(start+i));
-            }
-            if (!theater3[start+i] && theaterToTest[2]){
-                theater3[start+i] = true;
-                return  new TheaterDate(theaters[2], date.withDayOfYear(start+i));
+            for(Theater t: theaters){
+                int index = theaters.indexOf(t);
+                if (!TheatersBitmap.get(index)[start+i] && theaterToTest[index]){
+                    TheatersBitmap.get(index)[start+i] = true;
+                    return  new TheaterDate(t, date.withDayOfYear(start+i));
+                }
             }
         }
 
@@ -180,60 +158,51 @@ public class PersonalBitMap implements Serializable {
      */
     private TheaterDate findBestDayRange(int week, int firstMonday,LocalDate date,int range,boolean[] theaterToTest){
         int start = (week -1)*7+firstMonday;
-        for (int i = 5; i<7; i++){
+        for (int i = 6; i>4; i--){
             boolean allFree = true;
-            boolean [] selectedTheater = null;
-            int theaterNum = -1;
-            if (!theater1[start+i] && theaterToTest[0]){
-                theaterNum = 0;
-                selectedTheater = theater1;
-            }
-            else if (!theater2[start+i] && theaterToTest[1]){
-                theaterNum = 1;
-                selectedTheater = theater2;
-            }
-            else if (!theater3[start+i] && theaterToTest[2]){
-                theaterNum = 2;
-                selectedTheater = theater3;
-            }
-            if(selectedTheater != null){
-                for( int j = 0; j > -range; j --){
-                    allFree = allFree && (!selectedTheater[i+j]);
+            for(Theater t: theaters){
+                int index = theaters.indexOf(t);
+                if(theaterToTest[index]){
+                    if (!TheatersBitmap.get(index)[start+i]){
+                        for( int j = 0; j > -range; j --){
+                            if(start+i+j < 1){
+                                allFree = false;
+                                break;
+                            }
+                            allFree = allFree && (!TheatersBitmap.get(index)[start+i+j]);
+                            
+                        }
+                        if (allFree){
+                            for(int j = 0; j > -range; j --){
+                                TheatersBitmap.get(index)[start+i+j] = true;
+                            }
+                            return new TheaterDate(t,date.withDayOfYear(start+i-(range)+1));
+                        }
+                    }
                 }
-            }
-            if (allFree){
-                for(int j = 0; j > -range; j --){
-                    selectedTheater[start+i+j] = true;
-                }
-                return new TheaterDate(theaters[theaterNum],date.withDayOfYear(start+i-(range+1)));
             }
         }
         for (int  i = 0; i<5; i++){
             boolean allFree = true;
-            boolean [] selectedTheater = null;
-            int theaterNum = -1;
-            if (!theater1[start+i] && theaterToTest[0]){
-                theaterNum = 0;
-                selectedTheater = theater1;
-            }
-            else if (!theater2[start+i] && theaterToTest[1]){
-                theaterNum = 1;
-                selectedTheater = theater2;
-            }
-            else if (!theater3[start+i] && theaterToTest[2]){
-                theaterNum = 2;
-                selectedTheater = theater3;
-            }
-            if(selectedTheater != null){
-                for( int j = 0; j > -range; j --){
-                    allFree = allFree && (!selectedTheater[i+j]);
+            for(Theater t: theaters){
+                int index = theaters.indexOf(t);
+                if(theaterToTest[index]){
+                    if (!TheatersBitmap.get(index)[start+i]){
+                        for( int j = 0; j > -range; j --){
+                            if(start+i+j < 1){
+                                allFree = false;
+                                break;
+                            }
+                            allFree = allFree && (!TheatersBitmap.get(index)[start+i+j]);
+                        }
+                        if (allFree){
+                            for(int j = 0; j > -range; j --){
+                                TheatersBitmap.get(index)[start+i+j] = true;
+                            }
+                            return new TheaterDate(t,date.withDayOfYear(start+i-(range)+1));
+                        }
+                    }
                 }
-            }
-            if (allFree){
-                for(int j = 0; j > -range; j --){
-                    selectedTheater[start+i+j] = true;
-                }
-                return new TheaterDate(theaters[theaterNum],date.withDayOfYear(start+i-(range+1)));
             }
         }
 

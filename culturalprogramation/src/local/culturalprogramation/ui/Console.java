@@ -6,9 +6,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
-
 import local.culturalprogramation.domain.theaterAndProgramation.Programation;
-import local.culturalprogrammation.repository.ProgramationRepository;
+import local.culturalprogramation.repository.ProgramationRepository;
 
 public class Console {
     private static Programation programation = Programation.getInstance();
