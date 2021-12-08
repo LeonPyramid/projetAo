@@ -7,11 +7,12 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import local.culturalprogramation.domain.events.Concert;
-import local.culturalprogramation.domain.events.Play;
+import local.culturalprogramation.domain.events.*;
 import local.culturalprogramation.domain.programtion.PersonalBitMap.TheaterDate;
 import local.culturalprogramation.domain.theater.Theater;
 import local.culturalprogramation.domain.theater.WeeklyOpeningHours;
+
+
 
 public class Programation implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -150,11 +151,21 @@ public class Programation implements Serializable {
 
     
     public boolean removeEventPlay(String name, LocalDate date) {
+        
         return false;
     }
 
     public boolean removeEventConcert(String name, LocalDate date) {
-        return false;
+        try {
+            Theater theater = inwichTheater(name, date);
+            System.out.println(theater.toString());
+            theater.removeDayEvent(date);
+            return true;
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            return false;
+        }
+        
     }
     
 
@@ -228,5 +239,24 @@ public class Programation implements Serializable {
             weekdates.add(newDate);
         }
         return weekdates;
+    }
+
+    /**
+     * check in wich theater is a event
+     * @param date date of the event
+     * @param name name of the event
+     * @return the theater, null if the event is in no theater
+     */
+    private Theater inwichTheater (String name,LocalDate date){
+        for (Theater theater : theaterTab){
+            Event event = theater.getDateEvent(date);
+            if (event != null){
+                if(event.getName().equals(name)){
+                    return theater;
+                }
+
+            }         
+        }
+        return null;
     }
 }

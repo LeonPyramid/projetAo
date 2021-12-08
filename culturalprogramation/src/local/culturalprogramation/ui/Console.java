@@ -1,3 +1,4 @@
+
 package local.culturalprogramation.ui;
 
 import java.time.LocalDate;
@@ -338,7 +339,6 @@ public class Console {
         
         programation.change(theater,date,Integer.parseInt(split[0]),Integer.parseInt(split[1])
             ,Integer.parseInt(split[2]),Integer.parseInt(split[3]));
-
     }
 
 }

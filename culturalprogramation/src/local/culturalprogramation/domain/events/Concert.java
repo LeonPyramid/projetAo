@@ -6,19 +6,16 @@ import java.time.format.DateTimeFormatter;
 
 public class Concert extends Event{
     
-    private String groupName;
+    private static final long serialVersionUID = 1L;
     private LocalDate date;
     
     public Concert(String groupName, LocalDate date, int desiredCapacity){
-        super(desiredCapacity);
-        this.groupName =groupName;
+        super(desiredCapacity,groupName);
+        
         this.date = date;
     }
     
     
-    public String getGroupName() {
-        return groupName;
-    }
 
     public LocalDate getDate() {
         return date;
@@ -28,7 +25,7 @@ public class Concert extends Event{
     @Override
     public String toString() {
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yy");
-        return "Concert :" + groupName + ", " + date.format(fmt);
+        return "Concert :" + getName() + ", " + date.format(fmt);
     }
 
     
