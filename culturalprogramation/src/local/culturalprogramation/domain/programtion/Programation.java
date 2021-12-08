@@ -34,23 +34,23 @@ public class Programation implements Serializable {
     private Theater[] theaterTab;
 
     private Programation(){
+        atablesHours = new WeeklyOpeningHours();
+        Atabal = new Theater("Atabal","DateTimePlanning/",350);
+        
+        crakatoaHours  = new WeeklyOpeningHours();
+        Krakatoa = new Theater("Krakatoa","DateTimePlanning/",350);
+        
+        arenaHours  = new WeeklyOpeningHours();
+        Arena = new Theater("Arena","DateTimePlanning/",100);
+        
+        galaxieHours  = new WeeklyOpeningHours();
+        Galaxie = new Theater("Galaxie","DateTimePlanning/",350);
         bitMap = new PersonalBitMap(Atabal, Galaxie, Krakatoa,LocalDate.now().getYear());
         theaterTab = new Theater[4];
         theaterTab[0] = Atabal;
         theaterTab[1] = Galaxie;
         theaterTab[2] = Krakatoa;
         theaterTab[3] = Arena;
-        atablesHours = new WeeklyOpeningHours();
-        Atabal = new Theater("Atabal","DateTimePlanning/",350);
-    
-        crakatoaHours  = new WeeklyOpeningHours();
-        Krakatoa = new Theater("Krakatoa","DateTimePlanning/",350);
-    
-        arenaHours  = new WeeklyOpeningHours();
-        Arena = new Theater("Arena","DateTimePlanning/",100);
-    
-        galaxieHours  = new WeeklyOpeningHours();
-        Galaxie = new Theater("Galaxie","DateTimePlanning/",350);
     }
 
     public static Programation getInstance(){
