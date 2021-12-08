@@ -10,17 +10,17 @@ import local.culturalprogramation.domain.theater.WeeklyOpeningHours;
 
 public class Programation {
     int year;
-    WeeklyOpeningHours atablesHours = new WeeklyOpeningHours();
-    Theater Atabal = new Theater("Atabal","DateTimePlanning/",350);
+    WeeklyOpeningHours atablesHours;
+    Theater Atabal;
 
-    WeeklyOpeningHours crakatoaHours  = new WeeklyOpeningHours();
-    Theater Krakatoa = new Theater("Krakatoa","DateTimePlanning/",350);
+    WeeklyOpeningHours crakatoaHours;
+    Theater Krakatoa;
 
-    WeeklyOpeningHours arenaHours  = new WeeklyOpeningHours();
-    Theater Arena = new Theater("Arena","DateTimePlanning/",100);
+    WeeklyOpeningHours arenaHours;
+    Theater Arena;
 
-    WeeklyOpeningHours galaxieHours  = new WeeklyOpeningHours();
-    Theater Galaxie = new Theater("Galaxie","DateTimePlanning/",350);
+    WeeklyOpeningHours galaxieHours;
+    Theater Galaxie;
 
     private static Programation instance = null;
 
@@ -34,6 +34,17 @@ public class Programation {
         theaterTab[1] = Galaxie;
         theaterTab[2] = Krakatoa;
         theaterTab[3] = Arena;
+        atablesHours = new WeeklyOpeningHours();
+        Atabal = new Theater("Atabal","DateTimePlanning/",350);
+    
+        crakatoaHours  = new WeeklyOpeningHours();
+        Krakatoa = new Theater("Krakatoa","DateTimePlanning/",350);
+    
+        arenaHours  = new WeeklyOpeningHours();
+        Arena = new Theater("Arena","DateTimePlanning/",100);
+    
+        galaxieHours  = new WeeklyOpeningHours();
+        Galaxie = new Theater("Galaxie","DateTimePlanning/",350);
     }
 
     public static Programation getInstance(){
