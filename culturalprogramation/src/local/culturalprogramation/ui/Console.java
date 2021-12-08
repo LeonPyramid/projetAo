@@ -226,6 +226,7 @@ public class Console {
                 System.out.println("Enter the date of the concert *dd/MM/yy*");
                 stringDate = scan.next();
                 date = LocalDate.parse(stringDate, formatter);
+                System.out.println("DATE : " + date.toString());
                 check = programation.removeEventConcert(name,date);
                 if (check)
                     System.out.println("Remove done !");

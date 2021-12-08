@@ -95,7 +95,7 @@ public class Theater  implements Serializable{
     public void removeDayEvent(LocalDate date){
         if(!theaterDate.containsKey(date))
             throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
-        if(theaterDate.get(date).getStatus()!=TheaterStatus.CLOSED)
+        if(theaterDate.get(date).getStatus()==TheaterStatus.CLOSED)
             throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
         TheaterDateInformation tdi = theaterDate.get(date);
         tdi.removeEvent();  
@@ -159,6 +159,15 @@ public class Theater  implements Serializable{
             this.CreateDate(date);
         }
         return date.toString() + " " + theaterDate.get(date).toString();
+    }
+    
+    
+    public Event getDateEvent(LocalDate date){
+        if(!(theaterDate.containsKey(date))){
+            return null;
+        }
+        return theaterDate.get(date).getEvent();
+    
     }
    
 
