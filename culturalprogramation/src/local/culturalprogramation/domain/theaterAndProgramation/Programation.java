@@ -1,4 +1,4 @@
-package local.culturalprogramation.domain.programtion;
+package local.culturalprogramation.domain.theaterAndProgramation;
 
 import java.io.Serializable;
 import java.time.DayOfWeek;
@@ -7,9 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import local.culturalprogramation.domain.events.*;
-import local.culturalprogramation.domain.programtion.PersonalBitMap.TheaterDate;
-import local.culturalprogramation.domain.theater.Theater;
-import local.culturalprogramation.domain.theater.WeeklyOpeningHours;
+import local.culturalprogramation.domain.theaterAndProgramation.PersonalBitMap.TheaterDate;
 
 
 
@@ -189,8 +187,6 @@ public class Programation implements Serializable {
             } catch (Exception e) {
                 System.err.println("for " + t.getName() + " the date contains an event, hense cannot be changed");
             }
-        }
-        
         }
     }
 

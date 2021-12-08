@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import local.culturalprogramation.domain.programtion.*;
+import local.culturalprogramation.domain.theaterAndProgramation.Programation;
 
 public class ProgramationRepository {
     public static Programation loadProgramation(String filePath){

@@ -1,4 +1,4 @@
-package local.culturalprogramation.domain.theater;
+package local.culturalprogramation.domain.theaterAndProgramation;
 
 import java.io.BufferedReader;
 import java.io.IOException;

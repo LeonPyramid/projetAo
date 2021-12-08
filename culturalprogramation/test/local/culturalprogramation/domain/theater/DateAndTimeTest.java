@@ -8,6 +8,9 @@ import java.time.LocalDate;
 
 import org.junit.jupiter.api.Test;
 
+import local.culturalprogramation.domain.theaterAndProgramation.Theater;
+import local.culturalprogramation.domain.theaterAndProgramation.WeeklyOpeningHours;
+
 public class DateAndTimeTest {
     
     private WeeklyOpeningHours woh = new WeeklyOpeningHours();

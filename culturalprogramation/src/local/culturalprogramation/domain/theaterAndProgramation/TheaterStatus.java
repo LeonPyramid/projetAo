@@ -1,5 +1,5 @@
 
-package local.culturalprogramation.domain.theater;
+package local.culturalprogramation.domain.theaterAndProgramation;
 
 
 
