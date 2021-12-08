@@ -1,0 +1,18 @@
+2022
+
+LOAD
+../save.prg
+PLANNING
+1
+ALL
+
+
+ADD
+1
+PLAY
+MAMA MAYA
+45
+4
+SAVE
+../save.prg
+QUIT
