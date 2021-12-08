@@ -1,7 +1,7 @@
 package local.culturalprogramation.domain.events;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 public class Concert extends Event{
@@ -24,6 +24,7 @@ public class Concert extends Event{
 
     @Override
     public String toString() {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yy");
         return "Concert :" + getName() + ", " + date.format(fmt);
     }
 

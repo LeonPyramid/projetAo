@@ -35,7 +35,7 @@ public class Console {
         Boolean stay = true;
         while(stay){
             waitUserPrint();
-            String opt = scan.next();
+          String opt = scan.next();
             switch(opt){
                 case "ADD":
                     ADD(scan);

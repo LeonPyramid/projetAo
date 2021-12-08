@@ -1,7 +1,7 @@
 package local.culturalprogramation.domain.events;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 
@@ -38,12 +38,14 @@ public class Play extends Event{
      * 
      */
     public String getStringDate(){
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yy");
         String interval = "["+startDate.format(fmt)+":"+endDate.format(fmt)+"]";
         return interval;
     }
 
     @Override
     public String toString() {
+        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yy");
         return "Play :" + getName() + ",from " + startDate.format(fmt) + " to " + endDate.format(fmt);
     }
 

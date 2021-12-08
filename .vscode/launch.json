@@ -8,6 +8,13 @@
             "type": "java",
             "name": "Launch main",
             "request": "launch",
+            "mainClass": "local.culturalprogramation.tests.main",
+            "projectName": "projet_f52d8221"
+        },
+        {
+            "type": "java",
+            "name": "Launch main",
+            "request": "launch",
             "mainClass": "culturalprogramation/src/local/culturalprogramation/tests/main.java"
         }
     ]
