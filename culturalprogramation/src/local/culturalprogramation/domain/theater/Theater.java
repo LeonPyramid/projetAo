@@ -152,7 +152,7 @@ public class Theater  implements Serializable{
             throw new RuntimeException("The date doesn't exists\n");
         }
         if(getDateStatus(date)==TheaterStatus.OCCUPIED){
-            throw new RuntimeException("The date has an event, hense cannot be changed\n");
+            throw new RuntimeException("The date has an event, hense cannot be deleted\n");
         }
 
         theaterDate.remove(date);

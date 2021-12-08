@@ -72,7 +72,7 @@ public class Console {
         }
     }
     private String THEATER(Scanner scan){
-        System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena, ALL)");
+        System.out.println("Wich theater you want? (Atabal, Krakatoa, Galaxie, Arena, ALL)");
         String name = scan.nextLine();;
         return name;
     }
@@ -323,7 +323,7 @@ public class Console {
         while(true){
             System.out.println("Please enter the new opening hour and closing hour *HH:MM,HH:MM*");
             line = scan.nextLine();
-            if(!line.matches("d{2}\\:\\d{2}\\,\\d{2}\\:\\d{2}")){
+            if(!line.matches("\\d{2}\\:\\d{2}\\,\\d{2}\\:\\d{2}")){
                 System.err.println("Entry format not matching a planning format: HH:MM,HH:MM");
             }
             else{
