@@ -173,7 +173,29 @@ public class Programation implements Serializable {
     }
     
     
-    public void close(String theater, LocalDate date){
+    public void open(String name, LocalDate date) {
+        try {
+            List<Theater> theaters = findTheater(name);
+            for (Theater theater : theaters){
+                theater.setDayOpen(date);
+            }
+            return;
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
+    }
+    public void close(String name, LocalDate date){
+        try {
+            List<Theater> theaters = findTheater(name);
+            for (Theater theater : theaters){
+                theater.setDayClosed(date);
+            }
+            return;
+        } catch (RuntimeException e) {
+            System.err.println(e.getMessage());
+            return;
+        }
     }
 
     public void change(String theater, LocalDate date, int openingHour, int openingMinute, int closingHour, int closingMinutes) {
@@ -259,4 +281,6 @@ public class Programation implements Serializable {
         }
         return null;
     }
+
+    
 }

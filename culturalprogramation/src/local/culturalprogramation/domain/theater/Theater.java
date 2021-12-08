@@ -59,6 +59,9 @@ public class Theater  implements Serializable{
      * @param date day to set the informations
      */
     public void setDayOpen(LocalDate date){
+        if(theaterDate.containsKey(date) && theaterDate.get(date).getStatus()==TheaterStatus.CLOSED){
+            RemoveDate(date);
+        }
         CreateDate(date);
         if (theaterDate.get(date).getStatus()!=TheaterStatus.OPEN){
             System.err.println(("Warning: This day has no opening hours set. Day is set as CLOSED"));
@@ -70,8 +73,11 @@ public class Theater  implements Serializable{
      * @param date day to set the informations
      */
     public void setDayClosed(LocalDate date){
-        if(!theaterDate.containsKey(date)){
-            CreateDate(date, 00, 00, 00, 00);       
+        if(!(theaterDate.containsKey(date))){
+            this.CreateDate(date);
+        }
+        if(theaterDate.get(date).getStatus() == TheaterStatus.OCCUPIED){
+            return;     
         }
         else{
             theaterDate.put(date, new  TheaterDateInformation());
