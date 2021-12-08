@@ -1,12 +1,8 @@
-package local.culturalprogramation.domain.programtion;
+package local.culturalprogramation.domain.theaterAndProgramation;
 
 import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-
-
-import local.culturalprogramation.domain.theater.Theater;
-import local.culturalprogramation.domain.theater.TheaterStatus;
 /**
  * Contains, for each 3 principals theater, a boolean tab wich say if the day is occupied  
  */
