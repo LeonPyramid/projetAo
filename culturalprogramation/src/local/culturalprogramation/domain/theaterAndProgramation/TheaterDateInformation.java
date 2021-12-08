@@ -11,10 +11,10 @@ import local.culturalprogramation.domain.events.Event;
  */
 public class TheaterDateInformation implements Serializable {
     private static final long serialVersionUID = 1L;
-    private LocalDateTime openingHour;
-    private LocalDateTime closingHour;
-    private Event event;
-    private TheaterStatus status;
+    private final LocalDateTime openingHour;
+    private final LocalDateTime closingHour;
+    private final Event event;
+    private final TheaterStatus status;
     
     /**
      * Creating a new date information. The theater is set to OPEN and no event is linked.
@@ -94,31 +94,6 @@ public class TheaterDateInformation implements Serializable {
     }
 
     
-    /** 
-     * @param event
-     */
-    public void setEvent(Event event) {
-        if(event==null){
-            throw new RuntimeException("Event cannot be null");
-        }
-        if(status == TheaterStatus.OPEN){
-            this.event = event;
-            this.status = TheaterStatus.OCCUPIED;
-        }
-        else{
-            throw new RuntimeException("Cannot set an event in a closed or occupied date of the theater");
-        }
-    }
-
-    public void removeEvent(){
-        if(this.event != null){
-            this.event = null;
-            this.status = TheaterStatus.OPEN;
-        }
-        else{
-            throw new RuntimeException("Cannot remove an event at this date, no event set");
-        }
-    }
     @Override
     public String toString(){
         String ret = "";

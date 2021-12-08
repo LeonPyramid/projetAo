@@ -92,7 +92,10 @@ class Theater  implements Serializable{
         if(this.theaterDate.get(date).getStatus()!=TheaterStatus.OPEN)
             throw new RuntimeException("The theater "+name+" is not-free or closed at this day\n");
         TheaterDateInformation tdi = theaterDate.get(date);
-        tdi.setEvent(event);  
+        LocalDateTime opHour = tdi.getOpeningHour();
+        LocalDateTime clHour = tdi.getClosingHour();
+        TheaterDateInformation ntdi = new TheaterDateInformation(event,opHour,clHour);
+        theaterDate.put(date, ntdi); 
     }
     /**
      * Remove in theaterDate, the event of the given day
@@ -100,19 +103,24 @@ class Theater  implements Serializable{
      */
     void removeDayEvent(LocalDate date){
         if(!theaterDate.containsKey(date))
-            throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
-        if(theaterDate.get(date).getStatus()==TheaterStatus.CLOSED)
-            throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
+            throw new RuntimeException("The theater "+name+" doesn't have an event this day\n");
+        if(theaterDate.get(date).getStatus()!=TheaterStatus.OCCUPIED)
+            throw new RuntimeException("The theater "+name+" doesn't have an event this day\n");
         TheaterDateInformation tdi = theaterDate.get(date);
-        tdi.removeEvent();  
+        LocalDateTime opHour = tdi.getOpeningHour();
+        LocalDateTime clHour = tdi.getClosingHour();
+        TheaterDateInformation ntdi = new TheaterDateInformation(opHour,clHour);
+        theaterDate.put(date, ntdi);  
     }
 
     void removeDayEventPlay(LocalDate date) {
         if(!theaterDate.containsKey(date))
-            throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
-        if(theaterDate.get(date).getStatus()==TheaterStatus.CLOSED)
-            throw new RuntimeException("The theater "+name+" hasn't prepared the date yet\n");
+            throw new RuntimeException("The theater "+name+" doesn't have an event this day\n");
+        if(theaterDate.get(date).getStatus()!=TheaterStatus.OCCUPIED)
+            throw new RuntimeException("The theater "+name+" doesn't have an event this day\n");
         TheaterDateInformation tdi = theaterDate.get(date);
+        if(! ((tdi.getEvent()) instanceof Play))
+            throw new RuntimeException("The theater "+name+" doesn't have an event this day\n");
         Play play = (Play) tdi.getEvent();
         LocalDate start = play.getStartDate();
         LocalDate end = play.getEndDate();
