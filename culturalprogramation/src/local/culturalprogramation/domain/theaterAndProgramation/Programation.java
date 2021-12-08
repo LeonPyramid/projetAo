@@ -154,7 +154,12 @@ public class Programation implements Serializable {
         return ret;
     }
 
-    
+    /**
+     * Try to remove a play specified by a date
+     * @param name  name of the play 
+     * @param date  a representation of the play
+     * @return boolean to check if done or not
+     */
     public boolean removeEventPlay(String name, LocalDate date) {
         try {
             Theater theater = inwichTheater(name, date);
@@ -166,6 +171,12 @@ public class Programation implements Serializable {
         }
     }
 
+    /**
+     * Try to remove a concert specified by a date
+     * @param name  name of the concert
+     * @param date  date of the concert
+     * @return boolena to check if done or not
+     */
     public boolean removeEventConcert(String name, LocalDate date) {
         try {
             Theater theater = inwichTheater(name, date);
@@ -178,7 +189,11 @@ public class Programation implements Serializable {
         
     }
     
-    
+    /**
+     * Set the day to open
+     * @param name  Name of the theater
+     * @param date  Date to open
+     */
     public void open(String name, LocalDate date) {
         try {
             List<Theater> theaters = findTheater(name);
@@ -191,6 +206,12 @@ public class Programation implements Serializable {
             return;
         }
     }
+
+    /**
+     * Set the day to close if not occupied
+     * @param name Name of the theater
+     * @param date Date to close
+     */
     public void close(String name, LocalDate date){
         try {
             List<Theater> theaters = findTheater(name);
@@ -204,6 +225,15 @@ public class Programation implements Serializable {
         }
     }
 
+    /**
+     * Change the hours of a day
+     * @param theater Name of the theater
+     * @param date Date to change hours
+     * @param openingHour New opening hour
+     * @param openingMinute New opening minute
+     * @param closingHour New closing hour
+     * @param closingMinutes  New closing minute
+     */
     public void change(String theater, LocalDate date, int openingHour, int openingMinute, int closingHour, int closingMinutes) {
         List<Theater> theaterList = findTheater(theater);
         for(Theater t : theaterList){
@@ -221,7 +251,11 @@ public class Programation implements Serializable {
     }
 
 
-    
+    /**
+     * Find the theater specified by his name
+     * @param name name of the theater (ALL for all theaters)
+     * @return List of the theater asked
+     */
     private List<Theater> findTheater(String name){
         ArrayList<Theater> retList = new ArrayList<Theater>();
         if(name.equals("Atabal"))
