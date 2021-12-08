@@ -292,5 +292,26 @@ public class Programation implements Serializable {
         return null;
     }
 
+    public String displayYear(String name) {
+        List<Theater> theaterList = null;
+        try {
+            theaterList = findTheater(name);
+        } catch (RuntimeException e) {
+            return e.getMessage();
+        }
+        String ret = "";
+        LocalDate d = LocalDate.now();
+        d = d.withYear(year);
+        for(Theater theater : theaterList){
+            ret += theater.getName() + " : \n";
+            for(int i =1 ; i < 366 ; i++){
+                d = d.withDayOfYear(i);
+                if(theater.getDateStatus(d)==TheaterStatus.OCCUPIED)
+                    ret = ret + "\t" +theater.getDateInfo(d) +"\n";
+            }
+        }
+        return ret;
+    }
+
     
 }
