@@ -33,16 +33,16 @@ public class Programation implements Serializable {
 
     private Programation(){
         atablesHours = new WeeklyOpeningHours();
-        Atabal = new Theater("Atabal","DateTimePlanning/",350);
+        Atabal = new Theater("Atabal","../../DateTimePlanning/",350);
         
         crakatoaHours  = new WeeklyOpeningHours();
-        Krakatoa = new Theater("Krakatoa","DateTimePlanning/",350);
+        Krakatoa = new Theater("Krakatoa","../../DateTimePlanning/",350);
         
         arenaHours  = new WeeklyOpeningHours();
-        Arena = new Theater("Arena","DateTimePlanning/",100);
+        Arena = new Theater("Arena","../../DateTimePlanning/",100);
         
         galaxieHours  = new WeeklyOpeningHours();
-        Galaxie = new Theater("Galaxie","DateTimePlanning/",350);
+        Galaxie = new Theater("Galaxie","../../DateTimePlanning/",350);
         List<Theater> tList = new ArrayList<Theater>();
         tList.add(Atabal);
         tList.add(Galaxie);

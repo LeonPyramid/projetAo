@@ -1,0 +1,12 @@
+./src/local/culturalprogramation/domain/events/Event.java
+./src/local/culturalprogramation/domain/events/Concert.java
+./src/local/culturalprogramation/domain/events/Play.java
+./src/local/culturalprogramation/domain/theaterAndProgramation/TheaterStatus.java
+./src/local/culturalprogramation/domain/theaterAndProgramation/WeeklyOpeningHours.java
+./src/local/culturalprogramation/domain/theaterAndProgramation/TheaterDateInformation.java
+./src/local/culturalprogramation/domain/theaterAndProgramation/PersonalBitMap.java
+./src/local/culturalprogramation/domain/theaterAndProgramation/Theater.java
+./src/local/culturalprogramation/domain/theaterAndProgramation/Programation.java
+./src/local/culturalprogramation/repository/ProgramationRepository.java
+./src/local/culturalprogramation/ui/Console.java
+./src/local/culturalprogramation/tests/Main.java
