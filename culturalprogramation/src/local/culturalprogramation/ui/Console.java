@@ -122,15 +122,15 @@ public class Console {
     }
     private  void waitUserPrint(){
             System.out.println("Choose what to do (write CAPS word)");
-            System.out.println("1. ADD an event in a theater ");
-            System.out.println("2. REMOVE an event in a theater ");
-            System.out.println("3. Display a theather weekly PLANNING ");
-            System.out.println("4: Display a theater year PROGRAMATION");
-            System.out.println("5. SAVE the programation ");
-            System.out.println("6. LOAD a programation ");
-            System.out.println("7. Set Day OPEN ");
-            System.out.println("8. Set Day CLOSE ");
-            System.out.println("9. CHANGE day hours ");
+            System.out.println("1.  ADD an event in a theater ");
+            System.out.println("2.  REMOVE an event in a theater ");
+            System.out.println("3.  Display a theather weekly PLANNING ");
+            System.out.println("4.  Display a theater year PROGRAMATION");
+            System.out.println("5.  SAVE the programation ");
+            System.out.println("6.  LOAD a programation ");
+            System.out.println("7.  Set Day OPEN ");
+            System.out.println("8.  Set Day CLOSE ");
+            System.out.println("9.  CHANGE day hours ");
             System.out.println("10. QUIT the program");
     }
     private int lengthPlay(Scanner scan){
