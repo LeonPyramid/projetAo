@@ -8,6 +8,7 @@ import java.util.Scanner;
 
 
 import local.culturalprogramation.domain.programtion.Programation;
+import local.culturalprogrammation.repository.ProgramationRepository;
 
 public class Console {
     private static Programation programation = Programation.getInstance();
@@ -49,7 +50,7 @@ public class Console {
                     HOURS(scan);
                     break;
                 case "SAVE":
-                    SAVE();
+                    SAVE(scan);
                     break;
                 case "LOAD":
                     LOAD(scan);
@@ -72,7 +73,7 @@ public class Console {
         }
     }
     private String THEATER(Scanner scan){
-        System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena)");
+        System.out.println("Wich theater you want to show? (Atabal, Krakatoa, Galaxie, Arena, ALL)");
         String name = scan.next();
         return name;
     }
@@ -94,11 +95,17 @@ public class Console {
     private  int WEEK(Scanner scan){
         System.out.println("On wich week, do you want to work");
         while (true){
-            int week  = scan.nextInt();
-            if(week>0 && week <= 52){
-                return week;
+            try{
+                int week  = scan.nextInt();
+                if(week>0 && week <= 52){
+                    return week;
+                }
+                System.out.println("Week number must be in [1;52]");
             }
-            System.out.println("Week number must be in [1;52]");
+            catch(Exception e){
+                System.err.println("This is not an integer!");
+                scan.nextLine();
+            }
         }
         
     }
@@ -232,16 +239,31 @@ public class Console {
         }
     }
 
-    private void SAVE(){
-        String path = programation.save();
-        System.out.println("Programtion saved in : " + path );
+    private void SAVE(Scanner scan){
+        System.out.println("Give us the path to the programation to save"); 
+        String path =  scan.next();
+        String check;
+        try{
+            check = ProgramationRepository.saveProgramation(programation, path);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.err.println("Could not save the file");
+        }
+        check = null;
+        System.out.println("Programation saved in : " + path );
     }
 
     private void LOAD(Scanner scan){
-        System.out.println("Give us the path to the programtion to load"); 
+        System.out.println("Give us the path to the programation to load"); 
         String path =  scan.next();
-        String ret  = programation.load(path);
-        System.out.println(ret);
+        try{
+            programation = ProgramationRepository.loadProgramation(path);
+        }
+        catch(Exception e){
+            e.printStackTrace();
+            System.err.println("Could not load the file");
+        }
     }
 
     private void CLOSE(Scanner scan){

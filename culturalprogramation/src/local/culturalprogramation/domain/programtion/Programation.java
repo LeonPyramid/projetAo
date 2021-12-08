@@ -1,5 +1,6 @@
 package local.culturalprogramation.domain.programtion;
 
+import java.io.Serializable;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,19 +13,20 @@ import local.culturalprogramation.domain.programtion.PersonalBitMap.TheaterDate;
 import local.culturalprogramation.domain.theater.Theater;
 import local.culturalprogramation.domain.theater.WeeklyOpeningHours;
 
-public class Programation {
+public class Programation implements Serializable {
+    private static final long serialVersionUID = 1L;
     int year;
     WeeklyOpeningHours atablesHours = new WeeklyOpeningHours();
-    Theater Atabal = new Theater("Atabal","DateTimePlanning/",350);
+    Theater Atabal = new Theater("Atabal","../DateTimePlanning/",350);
 
     WeeklyOpeningHours crakatoaHours  = new WeeklyOpeningHours();
-    Theater Krakatoa = new Theater("Krakatoa","DateTimePlanning/",350);
+    Theater Krakatoa = new Theater("Krakatoa","../DateTimePlanning/",350);
 
     WeeklyOpeningHours arenaHours  = new WeeklyOpeningHours();
-    Theater Arena = new Theater("Arena","DateTimePlanning/",100);
+    Theater Arena = new Theater("Arena","../DateTimePlanning/",100);
 
     WeeklyOpeningHours galaxieHours  = new WeeklyOpeningHours();
-    Theater Galaxie = new Theater("Galaxie","DateTimePlanning/",350);
+    Theater Galaxie = new Theater("Galaxie","../DateTimePlanning/",350);
 
     private static Programation instance = null;
 
@@ -118,16 +120,19 @@ public class Programation {
      * @return String contenning the display
      */
     public String displayTheater(String name, int week) {
-        Theater theater = null;
+        List<Theater> theaterList = null;
         try {
-            theater = findTheater(name);
+            theaterList = findTheater(name);
         } catch (RuntimeException e) {
             return e.getMessage();
         }
-        String ret= name + " : \n";
         List<LocalDate> weekdates = dateOfWeek(week);
-        for (LocalDate date : weekdates) {
-            ret = ret + "\t" +theater.getDateInfo(date) +"\n";
+        String ret = "";
+        for(Theater theater : theaterList){
+            ret += theater.getName() + " : \n";
+            for (LocalDate date : weekdates) {
+                ret = ret + "\t" +theater.getDateInfo(date) +"\n";
+            }
         }
         return ret;
     }
@@ -141,13 +146,6 @@ public class Programation {
         return false;
     }
     
-    public String save() {
-        return null;
-    }
-
-    public String load(String path) {
-        return null;
-    }
 
     public String displayTheaterHours(String name) {
         return null;
@@ -159,19 +157,24 @@ public class Programation {
     public void change(String theater, LocalDateTime dateo, LocalDateTime datef) {
     }
 
+
     
-    private Theater findTheater(String name){
-        if(name == "Atabal")
-            return Atabal;
-            if(name == "Krakatoa")
-            return Krakatoa;
-        if(name == "Galaxie")
-        return Galaxie;
-        if(name=="Arena")
-        return Arena;
-        
-        throw new RuntimeException("Error: Theater name is invalid\n");
-        
+    private List<Theater> findTheater(String name){
+        ArrayList<Theater> retList = new ArrayList<Theater>();
+        if(name.equals("Atabal"))
+            retList.add(Atabal);
+        else if(name.equals("Krakatoa"))
+            retList.add(Krakatoa);
+        else if(name.equals("Galaxie"))
+            retList.add(Galaxie);
+        else if(name.equals("Arena"))
+            retList.add(Arena);
+        else if(name.equals("ALL"))
+            for(Theater t : theaterTab)
+                retList.add(t);
+        else
+            throw new RuntimeException("Error: Theater name is invalid\n");
+        return retList;
 
     }
     /**

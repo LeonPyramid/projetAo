@@ -1,6 +1,7 @@
 package local.culturalprogramation.domain.theater;
 
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import local.culturalprogramation.domain.events.Event;
 
@@ -8,7 +9,8 @@ import local.culturalprogramation.domain.events.Event;
  * Class containing information of a Theater. It is linked to a given day in
  * Theater.
  */
-public class TheaterDateInformation {
+public class TheaterDateInformation implements Serializable {
+    private static final long serialVersionUID = 1L;
     private LocalDateTime openingHour;
     private LocalDateTime closingHour;
     private Event event;
