@@ -105,7 +105,7 @@ class Theater  implements Serializable{
     }
     /**
      * Remove in theaterDate, the event of the given day
-     * @param date day to remove eventh
+     * @param date day to remove event
      */
     void removeDayEvent(LocalDate date){
         if(!theaterDate.containsKey(date))
@@ -119,6 +119,10 @@ class Theater  implements Serializable{
         theaterDate.put(date, ntdi);  
     }
 
+    /**
+     * Remove a play 
+     * @param date  Day of a representation of the play
+     */
     void removeDayEventPlay(LocalDate date) {
         if(!theaterDate.containsKey(date))
             throw new RuntimeException("The theater "+name+" doesn't have an event this day\n");
@@ -137,10 +141,22 @@ class Theater  implements Serializable{
     }
    
  
-    
+    /**
+     * Set Weekly Opening Hour 
+     * @param day from DayOfWekk
+     * @param hour Hour to set
+     * @param min  minute to set
+     */
     void setWeeklyDayOpeningHour(DayOfWeek day, int hour, int min ){
         openingHours.setOpeningHour(day ,hour, min);
     }
+
+    /**
+     * Set Weekly Closing Hour 
+     * @param day from DayOfWekk
+     * @param hour Hour to set
+     * @param min  minute to set
+     */
     void setWeeklyDayClosingHour(DayOfWeek day, int hour, int min){
         openingHours.setClosingHour(day, hour, min);
         
@@ -182,7 +198,10 @@ class Theater  implements Serializable{
         TheaterDateInformation newInformation  = new TheaterDateInformation(opening,closing);
         theaterDate.put(date, newInformation);
     }
-
+    /**
+     * Remove given date
+     * @param date Date to remove
+     */
     void RemoveDate(LocalDate date){
         if(!theaterDate.containsKey(date)){
             throw new RuntimeException("The date doesn't exists\n");
@@ -194,13 +213,22 @@ class Theater  implements Serializable{
         theaterDate.remove(date);
     }
 
+    /**
+     * Get status of the theater of the given date
+     * @param date Date to get Status
+     * @return TheaterStatus
+     */
     TheaterStatus getDateStatus(LocalDate date){
         if(!(theaterDate.containsKey(date))){
             this.CreateDate(date);
         }
         return theaterDate.get(date).getStatus();
     }
-
+    /**
+     * Get a string holding information  of the theater of the given date
+     * @param date Date to get Status
+     * @return
+     */
     String getDateInfo(LocalDate date){
         if(!(theaterDate.containsKey(date))){
             this.CreateDate(date);
@@ -208,7 +236,11 @@ class Theater  implements Serializable{
         return date.toString() + " " + theaterDate.get(date).toString();
     }
     
-    
+    /**
+     * Get the event of a given date if there is an event
+     * @param date Given Date 
+     * @return null if not event
+     */
     Event getDateEvent(LocalDate date){
         if(!(theaterDate.containsKey(date))){
             return null;

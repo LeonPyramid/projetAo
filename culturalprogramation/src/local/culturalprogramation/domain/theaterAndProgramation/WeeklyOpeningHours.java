@@ -12,12 +12,13 @@ import java.util.Hashtable;
 import java.util.List;
 
 
-public class WeeklyOpeningHours implements Serializable {
+ class WeeklyOpeningHours implements Serializable {
     private static final long serialVersionUID = 1L;
     private Hashtable<Integer,List<Integer>> dailyOpeningHours;
     private Hashtable<Integer,List<Integer>> dailyOpeningMinutes;
     
-    public WeeklyOpeningHours(){
+
+    WeeklyOpeningHours(){
         dailyOpeningHours = new Hashtable<Integer,List<Integer>>();
         dailyOpeningMinutes = new Hashtable<Integer,List<Integer>>();
         for(int day  = 1; day < 8 ; day++){
@@ -32,7 +33,13 @@ public class WeeklyOpeningHours implements Serializable {
         }
     }
 
-    public void setOpeningHour(DayOfWeek day,int hour,int min){
+    /**
+     * Set the opening hour
+     * @param day Day of the week to set
+     * @param hour Hour to set
+     * @param min Minute to set
+     */
+    void setOpeningHour(DayOfWeek day,int hour,int min){
         int vday = day.getValue();
         if(hour < 25 && hour >= 0){
             if(min < 61 && min >= 0){
@@ -44,7 +51,13 @@ public class WeeklyOpeningHours implements Serializable {
         throw new RuntimeException("The parameters givent aren't corresponding to a day of the week, hour, or minute time");
     }
 
-    public void setClosingHour(DayOfWeek day,int hour,int min){
+    /**
+     * Set the closing hour
+     * @param day Day of the week to set from DayOfWeek
+     * @param hour Hour to set
+     * @param min Minute to set
+     */
+    void setClosingHour(DayOfWeek day,int hour,int min){
         int vday = day.getValue();
         if(hour < 25 && hour >= 0){
             if(min < 61 && min >= 0){
@@ -61,14 +74,17 @@ public class WeeklyOpeningHours implements Serializable {
      * @param day from DayOfWeek 
      * @return A String at format "[hh:mm,hh:mm]" with opening hour at left and closing hour at right
      */
-    public String getDayHours(DayOfWeek day){
+     String getDayHours(DayOfWeek day){
         int vday = day.getValue();
         String ret = "[" + String.format("%02d",dailyOpeningHours.get(vday).get(0)) + ":" + String.format("%02d",dailyOpeningMinutes.get(vday).get(0)) + ","
         + String.format("%02d",dailyOpeningHours.get(vday).get(1)) + ":" +  String.format("%02d",dailyOpeningMinutes.get(vday).get(1)) + "]";
         return ret;
     }
-
-    public void loadPlanningFile(String path){
+    /**
+     * Initialize weekly hours from a dtp file
+     * @param path Path to the dtp file
+     */
+    void loadPlanningFile(String path){
         try{
             Path lPath = Paths.get(path).toAbsolutePath();
             BufferedReader reader = Files.newBufferedReader(lPath);
@@ -175,7 +191,7 @@ public class WeeklyOpeningHours implements Serializable {
                     break;
                 }
             }
-            this.getCopy(localWoh);
+            this.copyParameters(localWoh);
 
 
         }
@@ -186,8 +202,11 @@ public class WeeklyOpeningHours implements Serializable {
         }
     }
 
-
-    private void getCopy(WeeklyOpeningHours woh){
+    /**
+     * Set the hours at woh's hours
+     * @param woh WeeklyOpeningHours to copy from
+     */
+    private void copyParameters(WeeklyOpeningHours woh){
         for( DayOfWeek day : DayOfWeek.values()){
             this.setOpeningHour(day, woh.dailyOpeningHours.get(day.getValue()).get(0),  woh.dailyOpeningMinutes.get(day.getValue()).get(0));
             this.setClosingHour(day, woh.dailyOpeningHours.get(day.getValue()).get(1),  woh.dailyOpeningMinutes.get(day.getValue()).get(1));
@@ -195,7 +214,11 @@ public class WeeklyOpeningHours implements Serializable {
         }
     }
 
-    public WeeklyOpeningHours copy(){
+    /**
+     * Get a copy of WeeklyOpeningHours
+     * @return a copy of WeeklyOpeningHours
+     */
+    WeeklyOpeningHours copy(){
         WeeklyOpeningHours newWoh = new WeeklyOpeningHours();
         for( DayOfWeek day : DayOfWeek.values()){
             this.setOpeningHour(day, newWoh.dailyOpeningHours.get(day.getValue()).get(0),  newWoh.dailyOpeningMinutes.get(day.getValue()).get(0));
