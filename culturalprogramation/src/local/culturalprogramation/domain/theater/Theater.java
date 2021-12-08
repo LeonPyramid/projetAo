@@ -74,7 +74,7 @@ public class Theater  implements Serializable{
             CreateDate(date, 00, 00, 00, 00);       
         }
         else{
-            theaterDate.get(date).se
+            theaterDate.put(date, new  TheaterDateInformation());
         }
 
     }

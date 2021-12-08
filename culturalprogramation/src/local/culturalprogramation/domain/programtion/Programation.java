@@ -184,8 +184,8 @@ public class Programation implements Serializable {
         } catch (Exception e) {
             System.err.println(e.getMessage());
             return;
-        }
         
+        }
     }
 
 
